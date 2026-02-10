@@ -1,4 +1,5 @@
 using Sayara.Data;
+using Sayara.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+//repos
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IListingRepository, ListingRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 builder.Services.AddControllersWithViews();
 
