@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sayara")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25f54746ee7632f16b39e450fc0c5c8743bc6ff5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sayara")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sayara")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
