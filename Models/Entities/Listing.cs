@@ -15,5 +15,6 @@ namespace Sayara.Models.Entities
         public decimal CylinderCapacity { get; set; }  
         public string Color { get; set; }
         public string Description { get; set; }
+        public ICollection<ListingImage> Images { get; set; } = new List<ListingImage>();
     }
 }

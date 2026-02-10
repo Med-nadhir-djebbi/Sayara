@@ -3,23 +3,23 @@ namespace Sayara.Models.DTOs{
     public class CreateSaleListingDTO
     {
         public string Model { get; set; }
-            public int Year { get; set; }
-            public int Mileage { get; set; }
-            public EngineType EngineType { get; set; }
-            public TransmissionType TransmissionType { get; set; }
-            public int FiscalPower { get; set; }
-            public decimal CylinderCapacity { get; set; }  
-            public string Color { get; set; }
-            public string Description { get; set; }
+        public int Year { get; set; }
+        public int Mileage { get; set; }
+        public EngineType EngineType { get; set; }
+        public TransmissionType TransmissionType { get; set; }
+        public int FiscalPower { get; set; }
+        public decimal CylinderCapacity { get; set; }  
+        public string Color { get; set; }
+        public string Description { get; set; }
         public decimal Price {get;set;}
     }
     public class CreateRentListingDTO
     {
-    public string Model { get; set; }
+        public string Model { get; set; }
         public int Year { get; set; }
         public int Mileage { get; set; }
         public EngineType EngineType { get; set; }
-    public TransmissionType TransmissionType { get; set; }
+        public TransmissionType TransmissionType { get; set; }
         public int FiscalPower { get; set; }
         public decimal CylinderCapacity { get; set; }  
         public string Color { get; set; }
