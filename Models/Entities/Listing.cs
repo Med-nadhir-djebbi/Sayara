@@ -1,4 +1,5 @@
 using Sayara.Models.Enums;
+
 namespace Sayara.Models.Entities
 {
     public abstract class Listing
@@ -12,7 +13,7 @@ namespace Sayara.Models.Entities
         public EngineType EngineType { get; set; }
         public TransmissionType TransmissionType { get; set; }
         public int FiscalPower { get; set; }
-        public decimal CylinderCapacity { get; set; }  
+        public decimal CylinderCapacity { get; set; }
         public string Color { get; set; }
         public string Description { get; set; }
         public ICollection<ListingImage> Images { get; set; } = new List<ListingImage>();

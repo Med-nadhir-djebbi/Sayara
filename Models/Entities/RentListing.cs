@@ -1,4 +1,5 @@
 using Sayara.Models.Enums;
+
 namespace Sayara.Models.Entities
 {
     public class RentListing : Listing
