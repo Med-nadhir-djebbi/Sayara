@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Net.Http.Headers;
 
-namespace Models.Entities
+namespace Sayara.Models.Entities
 {
     public class User
     {

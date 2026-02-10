@@ -1,4 +1,4 @@
-namespace Models.Enums
+namespace Sayara.Models.Enums
 {
     public enum EngineType
     {

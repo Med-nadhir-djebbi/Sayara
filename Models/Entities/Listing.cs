@@ -1,5 +1,5 @@
-using Models.Enums;
-namespace Models.Entities
+using Sayara.Models.Enums;
+namespace Sayara.Models.Entities
 {
     public abstract class Listing
     {

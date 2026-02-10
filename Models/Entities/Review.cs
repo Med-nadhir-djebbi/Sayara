@@ -1,4 +1,4 @@
-namespace Models.Entities
+namespace Sayara.Models.Entities
 {
     public class Review
     {
