@@ -1,0 +1,31 @@
+# .NET build files
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains files
+.idea/
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Logs
+*.log
+
+# Publish folders
+publish/
+
+# User-specific files
+*.env
+appsettings.*.json
