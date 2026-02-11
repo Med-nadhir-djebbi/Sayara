@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 23))));
 
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -55,7 +55,24 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+}
+
+// Seed Database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    try 
+    {
+        DbSeeder.Seed(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
 }
 
 app.UseHttpsRedirection();
