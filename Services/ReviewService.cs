@@ -13,6 +13,33 @@ namespace Sayara.Services
             _reviewRepository = reviewRepository;
             _logger = logger;
         }
+        public async Task<ReviewDTO> GetReviewAsync(int id)
+        {
+            try
+            {
+                var review = await _reviewRepository.GetByIdAsync(id);
+                if(review == null)
+                {
+                    _logger.LogWarning("Review with ID {ReviewId} not found", id);
+                    return null;
+                }
+                return new ReviewDTO
+                {
+                    Id = review.Id,
+                    ReviewerId = review.ReviewerId,
+                    ReviewerName = review.Reviewer?.Name,
+                    RevieweeId = review.RevieweeId,
+                    Rating = review.Rating,
+                    Comment = review.Comment,
+                    CreatedAt = review.CreatedAt
+                };
+            }
+            catch(Exception ex)
+            {
+                
+            }
+        }
 
     }
+
 }
