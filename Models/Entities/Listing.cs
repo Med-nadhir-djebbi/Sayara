@@ -16,6 +16,9 @@ namespace Sayara.Models.Entities
         public decimal CylinderCapacity { get; set; }
         public string Color { get; set; }
         public string Description { get; set; }
+        public VerificationStatus VerificationStatus { get; set; } = VerificationStatus.Pending;
+        public string VerificationNotes { get; set; }
+        public DateTime? VerifiedDate { get; set; }
         public ICollection<ListingImage> Images { get; set; } = new List<ListingImage>();
     }
 }
