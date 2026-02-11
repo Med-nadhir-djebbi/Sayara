@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "Cars for Rent";
+}
+
+<div class="container" style="padding: 40px 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="color: var(--primary-green);">Cars for Rent</h2>
+        <a href="/create?type=rent" class="btn btn-success" id="createBtn" style="display:none;">List Your Car</a>
+    </div>
+
+     <!-- Simple Filter -->
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+        <form id="filterForm" style="display: flex; gap: 16px; flex-wrap: wrap;">
+             <input type="text" name="Brand" placeholder="Brand" class="form-control" style="flex: 1; min-width: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="number" name="MaxDailyRate" placeholder="Max Daily Rate" class="form-control" style="flex: 1; min-width: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+
+    <div class="listings-grid" id="rentListings">
+        <!-- Loaded via JS -->
+    </div>
+</div>
+
+<script>
+    const container = document.getElementById('rentListings');
+
+    async function loadListings(filterData = {}) {
+        container.innerHTML = '<p>Loading...</p>';
+        try {
+            let url = '/api/Listings/rent';
+            let method = 'GET';
+            let body = null;
+            let headers = {};
+
+             if (Object.keys(filterData).length > 0 && (filterData.Brand || filterData.MaxDailyRate)) {
+                url = '/api/Listings/filter/rent';
+                method = 'POST';
+                body = JSON.stringify(filterData);
+                headers = { 'Content-Type': 'application/json' };
+            }
+
+            const response = await fetch(url, { method, headers, body });
+            const result = await response.json();
+
+            container.innerHTML = '';
+
+            if (response.ok && result.data && result.data.length > 0) {
+                result.data.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'listing-card';
+                    card.innerHTML = `
+                        <div class="card-img">
+                            <img src="https://placehold.co/400x300?text=${encodeURIComponent(item.model)}" alt="${item.model}" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">${item.brand} ${item.model}</div>
+                            <div class="card-price">$${item.dailyRate}/day</div>
+                            <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
+                                ${item.year} • ${item.mileage} km
+                            </div>
+                            <a href="/details/${item.id}?type=rent" class="btn btn-success" style="width: 100%; margin-top: 16px;">Rent Now</a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } else {
+                container.innerHTML = '<p>No listings found.</p>';
+            }
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = '<p>Error loading listings.</p>';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadListings();
+        
+        if (localStorage.getItem('token')) {
+            document.getElementById('createBtn').style.display = 'inline-flex';
+        }
+
+        document.getElementById('filterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+             Object.keys(data).forEach(key => data[key] === "" && delete data[key]);
+            loadListings(data);
+        });
+    });
+</script>

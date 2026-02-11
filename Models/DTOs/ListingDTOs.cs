@@ -174,14 +174,46 @@ namespace Sayara.Models.DTOs
         public string Model { get; set; }
 
         [Range(1900, 2100)]
-        public int YearMin { get; set; }
+        public int MinYear { get; set; }
 
         [Range(1900, 2100)]
-        public int YearMax { get; set; }
+        public int MaxYear { get; set; }
+
+        public int MileageMin { get; set; }
+
+        public int MileageMax { get; set; }
+
+        public int Mileage { get; set; }
 
         public EngineType EngineType { get; set; }
 
         public TransmissionType TransmissionType { get; set; }
+
+        public int FiscalPowerMin { get; set; }
+        
+        public int FiscalPowerMax { get; set; }
+        
+        public decimal CylinderCapacityMin { get; set; }
+
+        public decimal CylinderCapacityMax { get; set; }
+
+        [Range(0, 100000)]
+        public decimal MinDailyRate { get; set; }
+
+        [Range(0, 100000)]
+        public decimal MaxDailyRate { get; set; }
+
+        [Range(0, 100000)]
+        public decimal MinWeeklyRate { get; set; }
+
+        [Range(0, 100000)]
+        public decimal MaxWeeklyRate { get; set; }
+
+        [Range(0, 100000)]
+        public decimal MinMonthlyRate { get; set; }
+
+        [Range(0, 100000)]
+        public decimal MaxMonthlyRate { get; set; }
 
         [StringLength(50)]
         public string ListingType { get; set; }

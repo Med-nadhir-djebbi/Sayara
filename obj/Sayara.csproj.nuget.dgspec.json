@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/ekkocystem/Desktop/Sayara/Sayara.csproj": {}
+    "Z:\\Sayara\\Sayara.csproj": {}
   },
   "projects": {
-    "/home/ekkocystem/Desktop/Sayara/Sayara.csproj": {
+    "Z:\\Sayara\\Sayara.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ekkocystem/Desktop/Sayara/Sayara.csproj",
+        "projectUniqueName": "Z:\\Sayara\\Sayara.csproj",
         "projectName": "Sayara",
-        "projectPath": "/home/ekkocystem/Desktop/Sayara/Sayara.csproj",
-        "packagesPath": "/home/ekkocystem/.nuget/packages/",
-        "outputPath": "/home/ekkocystem/Desktop/Sayara/obj/",
+        "projectPath": "Z:\\Sayara\\Sayara.csproj",
+        "packagesPath": "C:\\Users\\azizh\\.nuget\\packages\\",
+        "outputPath": "Z:\\Sayara\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/ekkocystem/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\azizh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -45,6 +50,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -84,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

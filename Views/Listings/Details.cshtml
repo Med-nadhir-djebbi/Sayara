@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "Listing Details";
+}
+
+<div class="container" style="padding: 40px 20px;">
+    <div id="loading" style="text-align:center;">Loading details...</div>
+    
+    <div id="detailsContent" style="display:none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+            <!-- Left: Images -->
+            <div>
+                 <img id="mainImage" src="" alt="Vehicle" style="width: 100%; border-radius: 12px; height: 400px; object-fit: cover; background: #eee;">
+            </div>
+            
+            <!-- Right: Info -->
+            <div>
+                <h1 id="title" style="color: var(--primary-blue); margin-bottom: 8px;"></h1>
+                <h2 id="price" style="color: var(--primary-green); margin-bottom: 24px;"></h2>
+                
+                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 16px; font-size: 1.2rem;">Vehicle Specifications</h3>
+                    <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <li><strong>Brand:</strong> <span id="brand"></span></li>
+                        <li><strong>Model:</strong> <span id="model"></span></li>
+                        <li><strong>Year:</strong> <span id="year"></span></li>
+                        <li><strong>Mileage:</strong> <span id="mileage"></span> km</li>
+                        <li><strong>Engine:</strong> <span id="engine"></span></li>
+                        <li><strong>Color:</strong> <span id="color"></span></li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: var(--shadow-sm);">
+                    <h3 style="margin-bottom: 16px; font-size: 1.2rem;">Description</h3>
+                    <p id="description" style="color: var(--text-dark);"></p>
+                    
+                    <hr style="margin: 20px 0; border-top: 1px solid #eee;">
+                    
+                    <h3 style="margin-bottom: 12px; font-size: 1.2rem;">Seller Info</h3>
+                    <p><strong>Name:</strong> <span id="sellerName"></span></p>
+                    <p><strong>Phone:</strong> <span id="sellerPhone"></span></p>
+                     <p><strong>Rating:</strong> <span id="sellerRating">N/A</span> / 5</p>
+                    
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 24px;" onclick="alert('Contact feature coming soon!')">Contact Seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        // Parse URL params manually since we use basic routing
+        const pathParts = window.location.pathname.split('/');
+        const id = pathParts[pathParts.length - 1]; // Last part is ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type'); // 'sale' or 'rent'
+
+        if (!id || !type) {
+             document.getElementById('loading').innerText = "Invalid listing.";
+             return;
+        }
+
+        try {
+            const response = await fetch(`/api/Listings/${type}/${id}`);
+            const result = await response.json();
+
+            if (response.ok && result.data) {
+                const item = result.data;
+                const isRent = type === 'rent';
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('detailsContent').style.display = 'block';
+                
+                document.getElementById('mainImage').src = `https://placehold.co/800x600?text=${encodeURIComponent(item.model)}`;
+                document.getElementById('title').innerText = `${item.brand} ${item.model}`;
+                
+                if (isRent) {
+                    document.getElementById('price').innerText = `$${item.dailyRate}/day`;
+                } else {
+                    document.getElementById('price').innerText = `$${item.price.toLocaleString()}`;
+                }
+
+                document.getElementById('brand').innerText = item.brand;
+                document.getElementById('model').innerText = item.model;
+                document.getElementById('year').innerText = item.year;
+                document.getElementById('mileage').innerText = item.mileage;
+                document.getElementById('engine').innerText = item.engineType || 'N/A';
+                document.getElementById('color').innerText = item.color;
+                document.getElementById('description').innerText = item.description;
+                
+                document.getElementById('sellerName').innerText = item.sellerName;
+                document.getElementById('sellerPhone').innerText = item.sellerPhone;
+                if (item.sellerRating) {
+                     document.getElementById('sellerRating').innerText = item.sellerRating.toFixed(1);
+                }
+            } else {
+                document.getElementById('loading').innerText = "Listing not found.";
+            }
+        } catch (err) {
+            console.error(err);
+             document.getElementById('loading').innerText = "Error loading details.";
+        }
+    });
+</script>

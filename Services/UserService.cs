@@ -8,11 +8,13 @@ namespace Sayara.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ITokenService _tokenService;
         private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, ITokenService tokenService, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
+            _tokenService = tokenService;
             _logger = logger;
         }
 
@@ -106,7 +108,7 @@ namespace Sayara.Services
             }
         }
 
-        public async Task<bool> LoginAsync(LoginDTO loginDto)
+        public async Task<string?> LoginAsync(LoginDTO loginDto)
         {
             try
             {
@@ -114,16 +116,16 @@ namespace Sayara.Services
                 if (user == null || !VerifyPassword(loginDto.Password, user.PasswordHash))
                 {
                     _logger.LogWarning($"Login failed for email: {loginDto.Email}");
-                    return false;
+                    return null;
                 }
 
                 _logger.LogInformation($"User {loginDto.Email} logged in successfully");
-                return true;
+                return _tokenService.GenerateToken(user);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error during login: {ex.Message}");
-                return false;
+                return null;
             }
         }
 

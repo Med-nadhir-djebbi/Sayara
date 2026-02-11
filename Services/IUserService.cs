@@ -8,7 +8,7 @@ namespace Sayara.Services
         Task<UserProfileDTO> GetUserByEmailAsync(string email);
         Task<List<UserProfileDTO>> GetAllUsersAsync();
         Task<bool> RegisterAsync(RegisterDTO registerDto);
-        Task<bool> LoginAsync(LoginDTO loginDto);
+        Task<string?> LoginAsync(LoginDTO loginDto);
         Task<bool> UpdateUserAsync(int id, UserProfileDTO userProfileDto);
         Task<bool> DeleteUserAsync(int id);
     }

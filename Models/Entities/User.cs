@@ -11,5 +11,11 @@ namespace Sayara.Models.Entities
         public string Role { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;
+        
+        
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        
+      
+        public string Name => $"{FirstName} {LastName}";
     }
 }
