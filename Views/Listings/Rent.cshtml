@@ -21,18 +21,8 @@
     </div>
 
     <div class="row g-5">
-        <!-- Main Content Area (Left, 3/4 width) -->
-        <div class="col-lg-9 order-lg-1">
-            <div class="listings-grid-three" id="rentListings">
-                <!-- Skeleton Loaders -->
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-            </div>
-        </div>
-
-        <!-- Right Sidebar Filters (Right, 1/4 width) -->
-        <div class="col-lg-3 order-lg-2">
+        <!-- Left Sidebar Filters (Left, 1/4 width) -->
+        <div class="col-md-3">
             <div class="sidebar-filters reveal">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="font-weight-bold mb-0">Refine Selection</h5>
@@ -69,6 +59,20 @@
                                 <input type="number" name="MaxDailyRate" placeholder="Max" class="filter-input no-icon control-green">
                             </div>
                         </div>
+                        <div class="filter-group mt-3">
+                            <label class="filter-label">Weekly Rate ($)</label>
+                            <div class="dual-inputs">
+                                <input type="number" name="MinWeeklyRate" placeholder="Min" class="filter-input no-icon control-green">
+                                <input type="number" name="MaxWeeklyRate" placeholder="Max" class="filter-input no-icon control-green">
+                            </div>
+                        </div>
+                        <div class="filter-group mt-3">
+                            <label class="filter-label">Monthly Rate ($)</label>
+                            <div class="dual-inputs">
+                                <input type="number" name="MinMonthlyRate" placeholder="Min" class="filter-input no-icon control-green">
+                                <input type="number" name="MaxMonthlyRate" placeholder="Max" class="filter-input no-icon control-green">
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Specifications -->
@@ -89,6 +93,20 @@
                                 <option value="1">Automatic</option>
                             </select>
                         </div>
+                        <div class="filter-group mt-3">
+                            <label class="filter-label">Year Range</label>
+                            <div class="dual-inputs">
+                                <input type="number" name="MinYear" placeholder="From" class="filter-input no-icon control-green">
+                                <input type="number" name="MaxYear" placeholder="To" class="filter-input no-icon control-green">
+                            </div>
+                        </div>
+                        <div class="filter-group mt-3">
+                            <label class="filter-label">Mileage (km)</label>
+                            <div class="dual-inputs">
+                                <input type="number" name="MileageMin" placeholder="Min" class="filter-input no-icon control-green">
+                                <input type="number" name="MileageMax" placeholder="Max" class="filter-input no-icon control-green">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="filter-action-group pt-4">
@@ -100,6 +118,16 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- Main Content Area (Right, 3/4 width) -->
+        <div class="col-md-9">
+            <div class="listings-grid-three" id="rentListings">
+                <!-- Skeleton Loaders -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
             </div>
         </div>
     </div>
