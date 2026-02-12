@@ -12,8 +12,8 @@ namespace Sayara.Services
         Task<List<RentListingDetailDTO>> FilterRentListingsAsync(ListingFilterDTO filterDto);
         Task<int> CreateSaleListingAsync(CreateSaleListingDTO createDto, int userId, IFormFileCollection photos);
         Task<int> CreateRentListingAsync(CreateRentListingDTO createDto, int userId, IFormFileCollection photos);
-        Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto);
-        Task<bool> UpdateRentListingAsync(int id, CreateRentListingDTO updateDto);
-        Task<bool> DeleteListingAsync(int id);
+        Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto, int userId);
+        Task<bool> UpdateRentListingAsync(int id, CreateRentListingDTO updateDto, int userId);
+        Task<bool> DeleteListingAsync(int id, int userId);
     }
 }

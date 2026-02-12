@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 23))));
+    options.UseSqlite(connectionString));
 
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();

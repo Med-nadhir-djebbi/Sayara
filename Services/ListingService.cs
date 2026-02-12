@@ -156,12 +156,12 @@ namespace Sayara.Services
             }
         }
 
-        public async Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto)
+        public async Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto, int userId)
         {
             var listing = await _listingRepository.GetByIdAsync(id);
-            if (listing == null || listing is not SaleListing)
+            if (listing == null || listing is not SaleListing || listing.UserId != userId)
             {
-                _logger.LogWarning("Sale listing with ID {Id} not found", id);
+                _logger.LogWarning("Sale listing with ID {Id} not found or user {UserId} is not the owner", id, userId);
                 return false;
             }
 
@@ -179,16 +179,16 @@ namespace Sayara.Services
 
             await _listingRepository.UpdateAsync(saleListing);
             await _listingRepository.SaveChangesAsync();
-            _logger.LogInformation("Sale listing with ID {Id} updated", id);
+            _logger.LogInformation("Sale listing with ID {Id} updated by user {UserId}", id, userId);
             return true;
         }
 
-        public async Task<bool> UpdateRentListingAsync(int id, CreateRentListingDTO updateDto)
+        public async Task<bool> UpdateRentListingAsync(int id, CreateRentListingDTO updateDto, int userId)
         {
             var listing = await _listingRepository.GetByIdAsync(id);
-            if (listing == null || listing is not RentListing)
+            if (listing == null || listing is not RentListing || listing.UserId != userId)
             {
-                _logger.LogWarning("Rent listing with ID {Id} not found", id);
+                _logger.LogWarning("Rent listing with ID {Id} not found or user {UserId} is not the owner", id, userId);
                 return false;
             }
 
@@ -208,22 +208,22 @@ namespace Sayara.Services
 
             await _listingRepository.UpdateAsync(rentListing);
             await _listingRepository.SaveChangesAsync();
-            _logger.LogInformation("Rent listing with ID {Id} updated", id);
+            _logger.LogInformation("Rent listing with ID {Id} updated by user {UserId}", id, userId);
             return true;
         }
 
-        public async Task<bool> DeleteListingAsync(int id)
+        public async Task<bool> DeleteListingAsync(int id, int userId)
         {
             var listing = await _listingRepository.GetByIdAsync(id);
-            if (listing == null)
+            if (listing == null || listing.UserId != userId)
             {
-                _logger.LogWarning("Listing with ID {Id} not found", id);
+                _logger.LogWarning("Listing with ID {Id} not found or user {UserId} is not the owner", id, userId);
                 return false;
             }
 
             await _listingRepository.DeleteAsync(id);
             await _listingRepository.SaveChangesAsync();
-            _logger.LogInformation("Listing with ID {Id} deleted", id);
+            _logger.LogInformation("Listing with ID {Id} deleted by user {UserId}", id, userId);
             return true;
         }
         

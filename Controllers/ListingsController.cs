@@ -17,6 +17,13 @@ namespace Sayara.Controllers
         }
 
         // --- VIEWS ---
+        [Route("/edit/{id}")]
+        [HttpGet]
+        public IActionResult EditView(int id)
+        {
+            return View("Edit"); // The view will fetch data via JS
+        }
+
         [Route("/sale")]
         [HttpGet]
         public IActionResult SaleView()
@@ -76,12 +83,42 @@ namespace Sayara.Controllers
             return Success(result);
         }
 
+        [Authorize]
+        [HttpGet("sale/{id}/edit")]
+        public async Task<ActionResult<ApiResponse<SaleListingDetailDTO>>> GetSaleForEdit(int id)
+        {
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdStr, out int userId))
+                return Unauthorized(new ApiResponse<SaleListingDetailDTO> { Success = false, Message = "Unauthorized" });
+
+            var listing = await _listingService.GetSaleListingAsync(id);
+            if (listing == null || listing.SellerUserId != userId)
+                return StatusCode(403, new ApiResponse<SaleListingDetailDTO> { Success = false, Message = "You can only edit your own listings" });
+
+            return Success(listing);
+        }
+
         [HttpGet("rent/{id}")]
         public async Task<ActionResult<ApiResponse<RentListingDetailDTO>>> GetRent(int id)
         {
             var result = await _listingService.GetRentListingAsync(id);
             if (result == null) return Error<RentListingDetailDTO>("Rent listing not found", 404);
             return Success(result);
+        }
+
+        [Authorize]
+        [HttpGet("rent/{id}/edit")]
+        public async Task<ActionResult<ApiResponse<RentListingDetailDTO>>> GetRentForEdit(int id)
+        {
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdStr, out int userId))
+                return Unauthorized(new ApiResponse<RentListingDetailDTO> { Success = false, Message = "Unauthorized" });
+
+            var listing = await _listingService.GetRentListingAsync(id);
+            if (listing == null || listing.SellerUserId != userId)
+                return StatusCode(403, new ApiResponse<RentListingDetailDTO> { Success = false, Message = "You can only edit your own listings" });
+
+            return Success(listing);
         }
 
         [HttpPost("filter/sale")]
@@ -128,27 +165,42 @@ namespace Sayara.Controllers
             return Success(id, "Rent listing created", 201);
         }
 
+        [Authorize]
         [HttpPut("sale/{id}")]
         public async Task<ActionResult<ApiResponse>> UpdateSale(int id, [FromBody] CreateSaleListingDTO updateDto)
         {
-            var result = await _listingService.UpdateSaleListingAsync(id, updateDto);
-            if (!result) return ErrorResponse("Failed to update sale listing", 404);
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdStr, out int userId))
+                return Unauthorized(new ApiResponse { Success = false, Message = "Unauthorized" });
+
+            var result = await _listingService.UpdateSaleListingAsync(id, updateDto, userId);
+            if (!result) return ErrorResponse("Failed to update sale listing or you don't own this listing", 403);
             return SuccessResponse("Sale listing updated");
         }
 
+        [Authorize]
         [HttpPut("rent/{id}")]
         public async Task<ActionResult<ApiResponse>> UpdateRent(int id, [FromBody] CreateRentListingDTO updateDto)
         {
-            var result = await _listingService.UpdateRentListingAsync(id, updateDto);
-            if (!result) return ErrorResponse("Failed to update rent listing", 404);
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdStr, out int userId))
+                return Unauthorized(new ApiResponse { Success = false, Message = "Unauthorized" });
+
+            var result = await _listingService.UpdateRentListingAsync(id, updateDto, userId);
+            if (!result) return ErrorResponse("Failed to update rent listing or you don't own this listing", 403);
             return SuccessResponse("Rent listing updated");
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ApiResponse>> Delete(int id)
         {
-            var result = await _listingService.DeleteListingAsync(id);
-            if (!result) return ErrorResponse("Listing not found", 404);
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdStr, out int userId))
+                return Unauthorized(new ApiResponse { Success = false, Message = "Unauthorized" });
+
+            var result = await _listingService.DeleteListingAsync(id, userId);
+            if (!result) return ErrorResponse("Listing not found or you don't own this listing", 403);
             return SuccessResponse("Listing deleted");
         }
     }

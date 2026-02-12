@@ -1,0 +1,311 @@
+@{
+    ViewData["Title"] = "Edit Listing";
+}
+
+<div class="container animate-fade-in" style="max-width: 1000px; padding: 60px 20px; min-height: calc(100vh - 180px); display: flex; flex-direction: column; justify-content: center;">
+    
+    <div style="text-align: center; margin-bottom: 50px;">
+        <div class="hero-badge mb-3">Edit Listing</div>
+        <h1 id="pageTitle" class="section-title mb-2">Update Your <span class="text-primary">Listing</span></h1>
+        <p class="text-muted">Modify the vehicle specifications and pricing.</p>
+    </div>
+
+    <div id="loading" class="text-center py-5">
+        <div class="spinner-premium"></div>
+        <p class="mt-3 text-muted">Loading listing details...</p>
+        <p id="debugInfo" class="text-muted small mt-3"></p>
+    </div>
+
+    <form id="editForm" enctype="multipart/form-data" style="display:none;">
+        <input type="hidden" name="ListingType" id="listingType" value="sale">
+        <input type="hidden" id="listingId">
+        <div class="stack-layout">
+            
+            <!-- Section 1: Identity -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">01</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Vehicle Identity</h5>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label">Brand</label>
+                        <select name="BrandId" class="form-control-premium" required>
+                            <option value="1">Audi</option>
+                            <option value="2">BMW</option>
+                            <option value="3">Mercedes</option>
+                            <option value="4">Porsche</option>
+                            <option value="5">Volkswagen</option>
+                            <option value="6">Toyota</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Model</label>
+                        <input type="text" name="Model" class="form-control-premium" placeholder="e.g. 911 GT3" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Year of Manufacture</label>
+                        <input type="number" name="Year" class="form-control-premium" placeholder="2024" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Mileage (KM)</label>
+                        <input type="number" name="Mileage" class="form-control-premium" placeholder="0" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Exterior Color</label>
+                        <input type="text" name="Color" class="form-control-premium" placeholder="e.g. Shark Blue" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Transmission</label>
+                        <select name="TransmissionType" class="form-control-premium" required>
+                            <option value="0">Manual</option>
+                            <option value="1">Automatic</option>
+                            <option value="2">CVT</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Performance -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">02</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Performance Specs</h5>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label">Engine Architecture</label>
+                        <select name="EngineType" class="form-control-premium" required>
+                            <option value="0">Petrol</option>
+                            <option value="1">Diesel</option>
+                            <option value="2">Electric</option>
+                            <option value="3">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fiscal Power (HP)</label>
+                        <input type="number" name="FiscalPower" class="form-control-premium" placeholder="e.g. 15" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Displacement (Liters)</label>
+                        <input type="number" step="0.1" name="CylinderCapacity" class="form-control-premium" placeholder="e.g. 4.0" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Commercial -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">03</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Valuation & Media</h5>
+                </div>
+                <div id="saleSection">
+                    <div class="row g-4 mb-4">
+                        <div class="col-12">
+                            <label class="form-label">Sale Price (USD)</label>
+                            <input type="number" name="Price" id="priceInput" class="form-control-premium" placeholder="e.g. 150000" required>
+                        </div>
+                    </div>
+                </div>
+                <div id="rentSection" style="display:none;">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Daily Rate (USD)</label>
+                            <input type="number" name="DailyRate" id="dailyRateInput" class="form-control-premium" placeholder="e.g. 500">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Weekly Rate (USD)</label>
+                            <input type="number" name="WeeklyRate" id="weeklyRateInput" class="form-control-premium" placeholder="e.g. 3000">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Monthly Rate (USD)</label>
+                            <input type="number" name="MonthlyRate" id="monthlyRateInput" class="form-control-premium" placeholder="e.g. 10000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Description -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">04</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Narrative</h5>
+                </div>
+                <textarea name="Description" class="form-control-premium" rows="6" placeholder="Share the story of your vehicle... condition, history, unique features..." required></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" id="submitBtn" class="btn btn-primary w-100 py-3" style="font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px;">
+                <i class="fas fa-save mr-2"></i> Save Changes
+            </button>
+            <a href="javascript:history.back()" class="btn btn-outline-secondary w-100 py-3 mt-2" style="font-weight: 600;">
+                <i class="fas fa-arrow-left mr-2"></i> Back
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .spinner-premium { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+    @@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    
+    .step-indicator { width: 45px; height: 45px; background: var(--primary-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; }
+    .premium-card { background: white; border-radius: 20px; border: 1px solid #f1f5f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    
+    .form-label { font-weight: 700; color: #1e293b; margin-bottom: 8px; font-size: 0.95rem; }
+    .form-control-premium { width: 100%; padding: 14px 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s; background: #f8fafc; }
+    .form-control-premium:focus { border-color: var(--primary-blue); background: white; outline: none; box-shadow: 0 0 0 3px rgba(0, 80, 158, 0.1); }
+    
+    .hero-badge { display: inline-block; background: #f0f9ff; color: var(--primary-blue); padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const pathParts = window.location.pathname.split('/');
+        const id = pathParts[pathParts.length - 1];
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type') || 'sale';
+
+        const debugInfo = document.getElementById('debugInfo');
+        debugInfo.innerText = `ID: ${id}, Type: ${type}, Path: ${window.location.pathname}`;
+
+        console.log('Edit View - ID:', id, 'Type:', type);
+        console.log('Full path:', window.location.pathname);
+        console.log('Token exists:', !!localStorage.getItem('token'));
+
+        document.getElementById('listingId').value = id;
+        document.getElementById('listingType').value = type;
+
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                document.getElementById('loading').innerHTML = '<div class="alert alert-danger"><i class="fas fa-lock"></i> You must be logged in to edit a listing. <a href="/login">Login here</a></div>';
+                return;
+            }
+
+            const endpoint = `/api/Listings/${type}/${id}/edit`;
+            console.log('Fetching from:', endpoint);
+            debugInfo.innerText += `<br>Fetching: ${endpoint}`;
+            
+            const response = await fetch(endpoint, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            console.log('Response status:', response.status);
+            const result = await response.json();
+            console.log('Response data:', result);
+
+            if (response.ok && result.data) {
+                const item = result.data;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('editForm').style.display = 'block';
+
+                // Fill form fields
+                document.querySelector('select[name="BrandId"]').value = item.brandId;
+                document.querySelector('input[name="Model"]').value = item.model;
+                document.querySelector('input[name="Year"]').value = item.year;
+                document.querySelector('input[name="Mileage"]').value = item.mileage;
+                document.querySelector('input[name="Color"]').value = item.color;
+                document.querySelector('select[name="TransmissionType"]').value = item.transmissionType;
+                document.querySelector('select[name="EngineType"]').value = item.engineType;
+                document.querySelector('input[name="FiscalPower"]').value = item.fiscalPower;
+                document.querySelector('input[name="CylinderCapacity"]').value = item.cylinderCapacity;
+                document.querySelector('textarea[name="Description"]').value = item.description;
+
+                if (type === 'rent') {
+                    document.getElementById('saleSection').style.display = 'none';
+                    document.getElementById('rentSection').style.display = 'block';
+                    document.getElementById('dailyRateInput').value = item.dailyRate || '';
+                    document.getElementById('weeklyRateInput').value = item.weeklyRate || '';
+                    document.getElementById('monthlyRateInput').value = item.monthlyRate || '';
+                } else {
+                    document.getElementById('priceInput').value = item.price;
+                }
+                console.log('Form loaded successfully');
+            } else {
+                const errorMsg = result.message || 'Unable to load listing';
+                console.error('API Error:', errorMsg, 'Status:', response.status);
+                let html = `<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> ${errorMsg}`;
+                if (response.status === 403) {
+                    html += '<br>You can only edit listings you own.';
+                } else if (response.status === 401) {
+                    html += '<br><a href="/login">Login to continue</a>';
+                }
+                html += '</div>';
+                document.getElementById('loading').innerHTML = html;
+            }
+        } catch (err) {
+            console.error('Fetch error:', err);
+            document.getElementById('loading').innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> Failed to load listing data: ${err.message}</div>`;
+        }
+    });
+
+    document.getElementById('editForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        if (!localStorage.getItem('token')) {
+            window.location.href = '/login?returnUrl=' + encodeURIComponent(window.location.href);
+            return;
+        }
+
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving Changes...';
+
+        const listingId = document.getElementById('listingId').value;
+        const type = document.getElementById('listingType').value;
+        
+        const formData = new FormData(e.target);
+        const data = {
+            brandId: parseInt(formData.get('BrandId')),
+            model: formData.get('Model'),
+            year: parseInt(formData.get('Year')),
+            mileage: parseInt(formData.get('Mileage')),
+            engineType: parseInt(formData.get('EngineType')),
+            transmissionType: parseInt(formData.get('TransmissionType')),
+            fiscalPower: parseInt(formData.get('FiscalPower')),
+            cylinderCapacity: parseFloat(formData.get('CylinderCapacity')),
+            color: formData.get('Color'),
+            description: formData.get('Description')
+        };
+
+        if (type === 'sale') {
+            data.price = parseFloat(formData.get('Price'));
+        } else {
+            data.dailyRate = parseFloat(formData.get('DailyRate')) || null;
+            data.weeklyRate = parseFloat(formData.get('WeeklyRate')) || null;
+            data.monthlyRate = parseFloat(formData.get('MonthlyRate')) || null;
+        }
+
+        try {
+            const endpoint = `/api/Listings/${type}/${listingId}`;
+            const response = await fetch(endpoint, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                btn.style.background = '#059669';
+                btn.innerHTML = '<i class="fas fa-check-double mr-2"></i> Changes Saved Successfully';
+                setTimeout(() => window.location.href = `/details/${listingId}?type=${type}`, 1500);
+            } else {
+                let errorMsg = result.message || 'Update failed';
+                alert(errorMsg);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Network error occurred');
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    });
+</script>

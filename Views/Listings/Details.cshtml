@@ -82,6 +82,12 @@
                                 <button class="btn btn-primary btn-block py-3 mb-2" onclick="alert('Digital concierge will contact you shortly.')">
                                     Inquire Now <i class="fas fa-paper-plane ml-2"></i>
                                 </button>
+                                <button id="editBtn" class="btn btn-warning btn-block py-3 mb-2" style="display:none;">
+                                    <i class="fas fa-edit mr-2"></i> Edit Listing
+                                </button>
+                                <button id="deleteBtn" class="btn btn-danger btn-block py-3 mb-2" style="display:none;">
+                                    <i class="fas fa-trash mr-2"></i> Delete Listing
+                                </button>
                                 <div class="text-center">
                                     <span class="text-muted small">Reference ID: <span id="listingId"></span></span>
                                 </div>
@@ -158,6 +164,50 @@
                 document.getElementById('sellerName').innerText = item.sellerName;
                 
                 if (item.sellerRating) document.getElementById('sellerRating').innerText = item.sellerRating.toFixed(1);
+
+                // Check if current user is the owner
+                const token = localStorage.getItem('token');
+                console.log('Checking ownership - Token exists:', !!token, 'SellerUserId:', item.sellerUserId);
+                if (token) {
+                    try {
+                        const decoded = JSON.parse(atob(token.split('.')[1]));
+                        const currentUserId = parseInt(decoded.sub || decoded.nameid || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']);
+                        console.log('Current user ID:', currentUserId, 'Is owner:', currentUserId === item.sellerUserId);
+                        
+                        if (currentUserId === item.sellerUserId) {
+                            document.getElementById('editBtn').style.display = 'block';
+                            document.getElementById('deleteBtn').style.display = 'block';
+                            
+                            document.getElementById('editBtn').onclick = () => {
+                                console.log('Edit clicked - navigating to /edit/' + item.id + '?type=' + type);
+                                window.location.href = `/edit/${item.id}?type=${type}`;
+                            };
+                            
+                            document.getElementById('deleteBtn').onclick = async () => {
+                                if (!confirm('Are you sure you want to delete this listing? This action cannot be undone.')) return;
+                                
+                                try {
+                                    const deleteResponse = await fetch(`/api/Listings/${id}`, {
+                                        method: 'DELETE',
+                                        headers: { 'Authorization': `Bearer ${token}` }
+                                    });
+                                    
+                                    if (deleteResponse.ok) {
+                                        alert('Listing deleted successfully');
+                                        window.location.href = '/vehicles';
+                                    } else {
+                                        alert('Failed to delete listing');
+                                    }
+                                } catch (err) {
+                                    console.error(err);
+                                    alert('Error deleting listing');
+                                }
+                            };
+                        }
+                    } catch (e) {
+                        console.log('Unable to decode token');
+                    }
+                }
 
                 // Gallery Logic
                 const images = item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls : [`https://source.unsplash.com/1200x800/?luxury-car&sig=${item.id}`];
