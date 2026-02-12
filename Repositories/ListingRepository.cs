@@ -14,12 +14,12 @@ namespace Sayara.Repositories
             _context = context;
         }
 
-        public async Task<Listing> GetByIdAsync(int id)
+        public async Task<Listing?> GetByIdAsync(int id)
         {
             return await _context.Listings.FirstOrDefaultAsync(l => l.Id == id);
         }
 
-        public async Task<SaleListingDetailDTO> GetSaleListingByIdAsync(int id)
+        public async Task<SaleListingDetailDTO?> GetSaleListingByIdAsync(int id)
         {
             return await _context.SaleListings
                 .Where(l => l.Id == id)
@@ -30,6 +30,7 @@ namespace Sayara.Repositories
                     Year = l.Year,
                     Mileage = l.Mileage,
                     BrandId = l.BrandId,
+                    BrandName = l.BrandId == 1 ? "Audi" : l.BrandId == 2 ? "BMW" : l.BrandId == 3 ? "Mercedes" : l.BrandId == 4 ? "Porsche" : l.BrandId == 5 ? "Volkswagen" : l.BrandId == 6 ? "Toyota" : "Unknown",
                     EngineType = l.EngineType,
                     TransmissionType = l.TransmissionType,
                     FiscalPower = l.FiscalPower,
@@ -41,18 +42,20 @@ namespace Sayara.Repositories
                     SellerUserId = l.UserId,
                     SellerName = l.User.Name,
                     SellerPhone = l.User.PhoneNumber,
-                    SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null
+                    SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null,
+                    ImageUrls = l.Images.Select(i => i.ImageUrl).ToList()
                 })
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<RentListingDetailDTO> GetRentListingByIdAsync(int id)
+        public async Task<RentListingDetailDTO?> GetRentListingByIdAsync(int id)
         {
             return await _context.RentListings
                 .Where(l => l.Id == id)
                 .Select(l => new RentListingDetailDTO
                 {
                     Id = l.Id,
+                    BrandName = l.BrandId == 1 ? "Audi" : l.BrandId == 2 ? "BMW" : l.BrandId == 3 ? "Mercedes" : l.BrandId == 4 ? "Porsche" : l.BrandId == 5 ? "Volkswagen" : l.BrandId == 6 ? "Toyota" : "Unknown",
                     Model = l.Model,
                     Year = l.Year,
                     Mileage = l.Mileage,
@@ -70,7 +73,8 @@ namespace Sayara.Repositories
                     SellerUserId = l.UserId,
                     SellerName = l.User.Name,
                     SellerPhone = l.User.PhoneNumber,
-                    SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null
+                    SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null,
+                    ImageUrls = l.Images.Select(i => i.ImageUrl).ToList()
                 })
                 .FirstOrDefaultAsync();
         }
@@ -86,10 +90,12 @@ namespace Sayara.Repositories
                 .Select(l => new SaleListingCardDTO
                 {
                     Id = l.Id,
+                    BrandName = l.BrandId == 1 ? "Audi" : l.BrandId == 2 ? "BMW" : l.BrandId == 3 ? "Mercedes" : l.BrandId == 4 ? "Porsche" : l.BrandId == 5 ? "Volkswagen" : l.BrandId == 6 ? "Toyota" : "Unknown",
                     Model = l.Model,
                     Year = l.Year,
                     Price = l.Price,
-                    SellerName = l.User.Name
+                    SellerName = l.User.Name,
+                    ImageUrls = l.Images.Select(i => i.ImageUrl).ToList()
                 })
                 .ToListAsync();
         }
@@ -100,10 +106,12 @@ namespace Sayara.Repositories
                 .Select(l => new RentListingCardDTO
                 {
                     Id = l.Id,
+                    BrandName = l.BrandId == 1 ? "Audi" : l.BrandId == 2 ? "BMW" : l.BrandId == 3 ? "Mercedes" : l.BrandId == 4 ? "Porsche" : l.BrandId == 5 ? "Volkswagen" : l.BrandId == 6 ? "Toyota" : "Unknown",
                     Model = l.Model,
                     Year = l.Year,
                     DailyRate = l.DailyRate,
-                    LessorName = l.User.Name
+                    LessorName = l.User.Name,
+                    ImageUrls = l.Images.Select(i => i.ImageUrl).ToList()
                 })
                 .ToListAsync();
         }
@@ -113,7 +121,7 @@ namespace Sayara.Repositories
             return await _context.Listings.Where(l => l.UserId == userId).ToListAsync();
         }
 
-        public async Task<Listing> GetListingWithImagesAsync(int id)
+        public async Task<Listing?> GetListingWithImagesAsync(int id)
         {
             return await _context.Listings
                 .Include(l => l.Images)
@@ -122,10 +130,13 @@ namespace Sayara.Repositories
 
         public async Task AddAsync(Listing listing)
         {
-            var listingExists = await _context.Listings.FirstOrDefaultAsync(l => l.Id == listing.Id);
-            if (listingExists != null)
+            if (listing.Id != 0)
             {
-                throw new InvalidOperationException($"A listing with Id '{listing.Id}' already exists.");
+                var listingExists = await _context.Listings.FirstOrDefaultAsync(l => l.Id == listing.Id);
+                if (listingExists != null)
+                {
+                    throw new InvalidOperationException($"A listing with Id '{listing.Id}' already exists.");
+                }
             }
             await _context.Listings.AddAsync(listing);
         }
@@ -211,6 +222,7 @@ namespace Sayara.Repositories
                 Year = l.Year,
                 Mileage = l.Mileage,
                 BrandId = l.BrandId,
+                BrandName = l.BrandId == 1 ? "Audi" : l.BrandId == 2 ? "BMW" : l.BrandId == 3 ? "Mercedes" : l.BrandId == 4 ? "Porsche" : l.BrandId == 5 ? "Volkswagen" : l.BrandId == 6 ? "Toyota" : "Unknown",
                 EngineType = l.EngineType,
                 TransmissionType = l.TransmissionType,
                 FiscalPower = l.FiscalPower,
@@ -222,7 +234,8 @@ namespace Sayara.Repositories
                 SellerUserId = l.UserId,
                 SellerName = l.User.Name,
                 SellerPhone = l.User.PhoneNumber,
-                SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null
+                SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null,
+                ImageUrls = l.Images.Select(i => i.ImageUrl).ToList()
             }).ToListAsync();
         }
 
@@ -291,21 +304,23 @@ namespace Sayara.Repositories
                 Model = l.Model,
                 Year = l.Year,
                 Mileage = l.Mileage,
-                BrandId = l.BrandId,
-                EngineType = l.EngineType,
-                TransmissionType = l.TransmissionType,
-                FiscalPower = l.FiscalPower,
-                CylinderCapacity = l.CylinderCapacity,
-                Color = l.Color,
-                Description = l.Description,
-                DailyRate = l.DailyRate,
-                WeeklyRate = l.WeeklyRate,
-                MonthlyRate = l.MonthlyRate,
-                CreatedAt = l.CreatedAt,
-                SellerUserId = l.UserId,
-                SellerName = l.User.Name,
-                SellerPhone = l.User.PhoneNumber,
-                SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null
+                    BrandId = l.BrandId,
+                    BrandName = l.BrandId == 1 ? "Audi" : l.BrandId == 2 ? "BMW" : l.BrandId == 3 ? "Mercedes" : l.BrandId == 4 ? "Porsche" : l.BrandId == 5 ? "Volkswagen" : l.BrandId == 6 ? "Toyota" : "Unknown",
+                    EngineType = l.EngineType,
+                    TransmissionType = l.TransmissionType,
+                    FiscalPower = l.FiscalPower,
+                    CylinderCapacity = l.CylinderCapacity,
+                    Color = l.Color,
+                    Description = l.Description,
+                    DailyRate = l.DailyRate,
+                    WeeklyRate = l.WeeklyRate,
+                    MonthlyRate = l.MonthlyRate,
+                    CreatedAt = l.CreatedAt,
+                    SellerUserId = l.UserId,
+                    SellerName = l.User.Name,
+                    SellerPhone = l.User.PhoneNumber,
+                    SellerRating = l.User.Reviews.Any() ? (decimal?)l.User.Reviews.Average(r => r.Rating) : null,
+                    ImageUrls = l.Images.Select(i => i.ImageUrl).ToList()
             }).ToListAsync();
         }
     }

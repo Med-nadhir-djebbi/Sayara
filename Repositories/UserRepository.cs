@@ -13,14 +13,14 @@ namespace Sayara.Repositories
             _context = context;
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<User> GetByEmailAsync(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email== email);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
         public async Task<List<User>> GetAllAsync()
         {

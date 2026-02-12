@@ -18,7 +18,7 @@ namespace Sayara.Services
             _logger = logger;
         }
 
-        public async Task<UserProfileDTO> GetUserByIdAsync(int id)
+        public async Task<UserProfileDTO?> GetUserByIdAsync(int id)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Sayara.Services
             }
         }
 
-        public async Task<UserProfileDTO> GetUserByEmailAsync(string email)
+        public async Task<UserProfileDTO?> GetUserByEmailAsync(string email)
         {
             try
             {

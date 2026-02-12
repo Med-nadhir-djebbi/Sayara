@@ -12,8 +12,8 @@ using Sayara.Data;
 namespace Sayara.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260211203941_InitialCreateMySql")]
-    partial class InitialCreateMySql
+    [Migration("20260212004208_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,9 +139,7 @@ namespace Sayara.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -175,9 +173,7 @@ namespace Sayara.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()

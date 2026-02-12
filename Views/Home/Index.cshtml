@@ -1,74 +1,329 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Sayara - Premium Vehicle Marketplace";
 }
 
-<div class="hero">
-    <div class="container">
-        <h1>Find Your Perfect Drive</h1>
-        <p>Whether you want to buy your dream car or rent one for the weekend, Sayara has you covered.</p>
-        <div style="margin-top: 32px; display: flex; justify-content: center; gap: 16px;">
-            <a href="/vehicles" class="btn btn-white" style="background: white; color: var(--primary-blue); padding: 12px 32px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">Browse Vehicles</a>
-            <a href="/create?type=sale" class="btn btn-success" style="padding: 12px 32px; font-size: 1rem;">List Your Car</a>
+<!-- Premium Hero Section -->
+<div class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <div class="hero-badge animate-fade-in">Experience Luxury</div>
+        <h1 class="animate-slide-up">Each Perfect Drive Starts at <span class="text-gradient">Sayara.</span></h1>
+        <p class="animate-slide-up-delay">The world's most premium marketplace for buying, selling, and renting exotic and high-end vehicles.</p>
+        
+        <div class="hero-actions animate-slide-up-delay-2">
+            <a href="/sale" class="btn btn-luxury shadow-glow">Browse Collection</a>
+            <a href="/create" class="btn btn-sell-rent">Sell / Rent Your Car</a>
+        </div>
+        
+        <div class="hero-stats animate-fade-in-delay">
+            <div class="stat-item">
+                <span class="stat-value">500+</span>
+                <span class="stat-label">Luxury Cars</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-value">10k+</span>
+                <span class="stat-label">Happy Clients</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-value">24h</span>
+                <span class="stat-label">Premium Support</span>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="container" style="padding: 60px 20px;">
-    <h2 style="text-align: center; margin-bottom: 40px; color: var(--primary-blue);">Featured Vehicles</h2>
-    
-    <div class="listings-grid" id="featuredListings">
-        <!-- Listings will be loaded here via JS -->
+<!-- Why Choose Us -->
+<section class="py-5" style="background: white; border-radius: 40px; margin-top: -40px; position: relative; z-index: 10;">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 reveal-left">
+                <div class="experience-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1562141989-c5c79ac8f576?auto=format&fit=crop&q=80&w=1200" 
+                         alt="Why Choose Us" class="img-fluid rounded-custom shadow-lg">
+                </div>
+            </div>
+            <div class="col-lg-6 pl-lg-5 reveal-right">
+                <div class="experience-badge mb-3">Est. 2026</div>
+                <h2 class="display-4 font-weight-bold mb-4">Why Enthusiasts Choose <span class="text-primary">Sayara</span></h2>
+                <p class="text-muted mb-5">We are redefining the luxury car marketplace with extreme attention to detail and premium service.</p>
+                
+                <div class="features-list">
+                    <div class="feature-item mb-4 reveal">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="feature-text">
+                            <h5 class="font-weight-bold mb-1">Premium Inspection</h5>
+                            <p class="small text-muted mb-0">Every vehicle undergoes a 200-point detail inspection for your peace of mind.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item mb-4 reveal">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="feature-text">
+                            <h5 class="font-weight-bold mb-1">Secure & Swift</h5>
+                            <p class="small text-muted mb-0">Our digital-first approach ensures secure transactions and less time on paperwork.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item reveal">
+                        <div class="feature-icon"><i class="fas fa-gem"></i></div>
+                        <div class="feature-text">
+                            <h5 class="font-weight-bold mb-1">Exclusive Access</h5>
+                            <p class="small text-muted mb-0">Get priority access to off-market rare collectibles and limited editions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Listings -->
+<section class="container py-5">
+    <div class="section-header reveal">
+        <div>
+            <h2 class="section-title">Featured <span class="text-primary">Vehicles</span></h2>
+            <p class="section-subtitle">Discover our hand-picked collection of prestigious vehicles.</p>
+        </div>
+        <a href="/vehicles" class="view-all-link">View All <i class="fas fa-arrow-right ml-2"></i></a>
     </div>
     
-    <div style="text-align: center; margin-top: 40px;">
-        <a href="/vehicles" class="btn btn-outline" style="min-width: 200px;">View All Vehicles</a>
+    <div id="featuredListings" class="listings-grid">
+        <!-- Skeleton Loaders -->
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
     </div>
-</div>
+</section>
+
+<style>
+    /* Premium Page Styles */
+    :root {
+        --radius-custom: 24px;
+        --primary-blue: #00509E;
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-section {
+        position: relative;
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1920');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        overflow: hidden;
+        border-bottom-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 5rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+        margin-bottom: 24px;
+        line-height: 1.1;
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #ffffff, #888888);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-content p {
+        font-size: 1.4rem;
+        max-width: 650px;
+        margin: 0 auto 40px;
+        opacity: 0.9;
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(8px);
+        padding: 8px 16px;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+    }
+
+    .btn-luxury {
+        background: white;
+        color: black !important;
+        padding: 20px 45px;
+        font-size: 1.15rem;
+        font-weight: 800;
+        border-radius: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-luxury:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(255,255,255,0.25);
+    }
+
+    .btn-sell-rent {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(15px);
+        color: white !important;
+        padding: 20px 45px;
+        font-size: 1.15rem;
+        font-weight: 600;
+        border-radius: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-left: 20px;
+    }
+
+    .btn-sell-rent:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .hero-stats {
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 60px;
+    }
+
+    .stat-value { display: block; font-size: 2rem; font-weight: 800; }
+    .stat-label { font-size: 0.9rem; opacity: 0.7; }
+    .stat-divider { width: 1px; height: 40px; background: var(--glass-border); }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 50px;
+    }
+
+    .section-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; }
+    .view-all-link { font-weight: 700; color: var(--primary-blue); text-decoration: none; border-bottom: 2px solid var(--primary-blue); padding-bottom: 4px; }
+
+    .rounded-custom { border-radius: 24px; }
+    
+    .feature-item { display: flex; gap: 20px; align-items: flex-start; }
+    .feature-icon {
+        width: 60px; height: 60px; background: rgba(0, 80, 158, 0.1); color: var(--primary-blue);
+        border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+    }
+
+    .skeleton-card { height: 400px; background: #f1f5f9; border-radius: 20px; animation: pulse 1.5s infinite; }
+    @@keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 0.9; } 100% { opacity: 0.6; } }
+
+    /* Animations Hero */
+    .animate-slide-up { animation: slideUp 0.8s ease forwards; opacity: 0; }
+    .animate-slide-up-delay { animation: slideUp 0.8s ease 0.2s forwards; opacity: 0; }
+    .animate-slide-up-delay-2 { animation: slideUp 0.8s ease 0.4s forwards; opacity: 0; }
+    .animate-fade-in { animation: fadeIn 1s ease forwards; opacity: 0; }
+    .animate-fade-in-delay { animation: fadeIn 1s ease 0.6s forwards; opacity: 0; }
+
+    @@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Scroll Reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    .reveal-left.active { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    .reveal-right.active { opacity: 1; transform: translateX(0); }
+</style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        const container = document.getElementById('featuredListings');
-        
+    async function loadFeaturedListings() {
         try {
-            // Fetch sale listings for the home page (limit via slice in JS for now or backend endpoint)
-            const response = await fetch('/api/Listings/sale');
-            const result = await response.json();
+            const response = await fetch('/api/listings/sale');
+            const data = await response.json();
+            const container = document.getElementById('featuredListings');
             
-            if (response.ok && result.data) {
-                // Assuming result.data is an array of listings
-                const listings = result.data.slice(0, 3); // Show top 3
-                
-                if (listings.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; width:100%;">No listings available right now.</p>';
-                    return;
-                }
-
-                listings.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'listing-card';
-                    card.innerHTML = `
-                        <div class="card-img">
-                            <!-- Placeholder image logic -->
-                            <img src="https://placehold.co/400x300?text=${encodeURIComponent(item.model || 'Car')}" alt="${item.model}" style="width:100%; height:100%; object-fit:cover;">
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">${item.brand} ${item.model}</div>
-                            <div class="card-price">$${(item.price || 0).toLocaleString()}</div>
-                            <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
-                                ${item.year} • ${item.mileage} km
-                            </div>
-                            <!-- Assuming we have a Details page route configured -->
-                            <button onclick="window.location.href='/details/${item.id}?type=sale'" class="btn btn-primary" style="width: 100%; margin-top: 16px;">View Details</button>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-            } else {
-                 container.innerHTML = '<p>No listings found.</p>';
+            const items = data.data ? data.data.slice(0, 4) : [];
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div class="text-center w-100 py-5"><p>Tailored collection arriving soon.</p></div>';
+                return;
             }
-        } catch (err) {
-            console.error(err);
-            container.innerHTML = '<p>Failed to load listings.</p>';
+
+            container.innerHTML = items.map(item => {
+                const imageUrl = (item.imageUrls && item.imageUrls.length > 0) 
+                    ? item.imageUrls[0] 
+                    : 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800';
+                
+                return `
+                    <div class="listing-card premium-shadow reveal">
+                        <div class="card-img">
+                            <img src="${imageUrl}" alt="${item.model}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+                            <div class="card-badge">Featured</div>
+                        </div>
+                        <div class="card-body" style="padding: 24px;">
+                            <div class="card-meta" style="display:flex; gap:15px; font-size:0.85rem; color:#64748b; margin-bottom:12px;">
+                                <span><i class="fas fa-calendar-alt"></i> ${item.year}</span>
+                                <span><i class="fas fa-certificate text-primary"></i> Certified</span>
+                            </div>
+                            <h4 style="margin: 0 0 15px; font-weight: 800; font-size: 1.25rem;">${item.brandName || ''} ${item.model}</h4>
+                            <div class="card-footer" style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f1f5f9; padding-top:15px;">
+                                <div style="font-size: 1.5rem; font-weight: 800; color: #00C853;">$${(item.price || 0).toLocaleString()}</div>
+                                <button onclick="window.location.href='/details/${item.id}?type=sale'" class="btn-icon" style="width:45px; height:45px; border-radius:50%; background:#f8fafc; border:none; color:#00509E; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center;">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            initScrollReveal();
+        } catch (error) {
+            console.error('Error:', error);
         }
+    }
+
+    function initScrollReveal() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadFeaturedListings();
+        initScrollReveal();
     });
 </script>

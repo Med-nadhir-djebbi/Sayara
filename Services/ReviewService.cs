@@ -23,7 +23,7 @@ namespace Sayara.Services
                 if (review == null)
                 {
                     _logger.LogWarning("Review with ID {Id} not found.", id);
-                    return null;
+                    return null!;
                 }
                 return MapToDto(review);
             }
@@ -166,7 +166,8 @@ namespace Sayara.Services
                 RevieweeId = review.RevieweeId,
                 Rating = review.Rating,
                 Comment = review.Comment,
-                CreatedAt = review.CreatedAt
+                CreatedAt = review.CreatedAt,
+                ReviewerName = null // This needs to be populated if navigation property exists
             };
         }
 

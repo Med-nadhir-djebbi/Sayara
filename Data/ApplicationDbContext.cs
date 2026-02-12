@@ -32,15 +32,15 @@ namespace Sayara.Data
                 entity.Property(u => u.PhoneNumber).IsRequired(false);
                 entity.Property(u => u.Role).HasDefaultValueSql("'User'");
                 entity.Property(u => u.IsActive).HasDefaultValueSql("1").HasSentinel(false);
-                entity.Property(u => u.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(u => u.CreatedAt);
             });
 
             
             modelBuilder.Entity<Listing>(entity =>
             {
                 entity.HasKey(l => l.Id);
-                entity.HasOne<User>()
-                    .WithMany()
+                entity.HasOne(l => l.User)
+                    .WithMany(u => u.Listings)
                     .HasForeignKey(l => l.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
                 entity.Property(l => l.Model).IsRequired();
@@ -64,7 +64,7 @@ namespace Sayara.Data
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.HasKey(r => r.Id);
-                entity.Property(r => r.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+                entity.Property(r => r.CreatedAt);
                 entity.HasOne<User>()
                     .WithMany()
                     .HasForeignKey(r => r.ReviewerId)

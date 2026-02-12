@@ -3,8 +3,8 @@ namespace Sayara.Models
     public class ApiResponse<T>
     {
         public bool Success { get; set; }
-        public T Data { get; set; }
-        public string Message { get; set; }
+        public T Data { get; set; } = default!;
+        public required string Message { get; set; }
         public int StatusCode { get; set; }
 
         public static ApiResponse<T> SuccessResponse(T data, string message = "Operation successful", int statusCode = 200)
@@ -32,7 +32,7 @@ namespace Sayara.Models
     public class ApiResponse
     {
         public bool Success { get; set; }
-        public string Message { get; set; }
+        public required string Message { get; set; }
         public int StatusCode { get; set; }
 
         public static ApiResponse SuccessResponse(string message = "Operation successful", int statusCode = 200)

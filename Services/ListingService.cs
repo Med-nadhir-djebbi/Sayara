@@ -15,7 +15,7 @@ namespace Sayara.Services
             _logger = logger;
         }
 
-        public async Task<SaleListingDetailDTO> GetSaleListingAsync(int id)
+        public async Task<SaleListingDetailDTO?> GetSaleListingAsync(int id)
         {
             var listing = await _listingRepository.GetSaleListingByIdAsync(id);
             if (listing == null)
@@ -25,7 +25,7 @@ namespace Sayara.Services
             }
             return listing;
         }
-        public async Task<RentListingDetailDTO> GetRentListingAsync(int id)
+        public async Task<RentListingDetailDTO?> GetRentListingAsync(int id)
         {
             var listing = await _listingRepository.GetRentListingByIdAsync(id);
             if (listing == null)
@@ -58,10 +58,11 @@ namespace Sayara.Services
             return listings;
         }
 
-        public async Task<int> CreateSaleListingAsync(CreateSaleListingDTO createDto, int userId)
+        public async Task<int> CreateSaleListingAsync(CreateSaleListingDTO createDto, int userId, IFormFileCollection photos)
         {
             var saleListing = new SaleListing
             {
+                BrandId = createDto.BrandId,
                 Model = createDto.Model,
                 Year = createDto.Year,
                 Mileage = createDto.Mileage,
@@ -76,16 +77,25 @@ namespace Sayara.Services
                 CreatedAt = DateTime.UtcNow
             };
 
+            if (photos != null && photos.Count > 0)
+            {
+                _logger.LogInformation("Processing {Count} photos for new sale listing", photos.Count);
+                await ProcessPhotosAsync(saleListing, photos);
+            }
+
+            _logger.LogInformation("Saving new sale listing for user {UserId}", userId);
             await _listingRepository.AddAsync(saleListing);
             await _listingRepository.SaveChangesAsync();
+
             _logger.LogInformation("Sale listing created with ID {Id}", saleListing.Id);
             return saleListing.Id;
         }
 
-        public async Task<int> CreateRentListingAsync(CreateRentListingDTO createDto, int userId)
+        public async Task<int> CreateRentListingAsync(CreateRentListingDTO createDto, int userId, IFormFileCollection photos)
         {
             var rentListing = new RentListing
             {
+                BrandId = createDto.BrandId,
                 Model = createDto.Model,
                 Year = createDto.Year,
                 Mileage = createDto.Mileage,
@@ -102,10 +112,48 @@ namespace Sayara.Services
                 CreatedAt = DateTime.UtcNow
             };
 
+            if (photos != null && photos.Count > 0)
+            {
+                _logger.LogInformation("Processing {Count} photos for new rent listing", photos.Count);
+                await ProcessPhotosAsync(rentListing, photos);
+            }
+
+            _logger.LogInformation("Saving new rent listing for user {UserId}", userId);
             await _listingRepository.AddAsync(rentListing);
             await _listingRepository.SaveChangesAsync();
+
             _logger.LogInformation("Rent listing created with ID {Id}", rentListing.Id);
             return rentListing.Id;
+        }
+
+        private async Task ProcessPhotosAsync(Listing listing, IFormFileCollection photos)
+        {
+            var uploadPath = Path.Combine("wwwroot", "uploads", "listings");
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+
+            foreach (var photo in photos)
+            {
+                if (photo.Length > 0)
+                {
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(photo.FileName)}";
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await photo.CopyToAsync(stream);
+                    }
+
+                    listing.Images.Add(new ListingImage
+                    {
+                        ImageUrl = $"/uploads/listings/{fileName}",
+                        FileName = fileName,
+                        UploadedAt = DateTime.UtcNow
+                    });
+                }
+            }
         }
 
         public async Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto)

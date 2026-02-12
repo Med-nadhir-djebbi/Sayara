@@ -13,7 +13,7 @@ namespace Sayara.Models.DTOs
 
         [Required(ErrorMessage = "Comment is required")]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Comment must be between 10 and 1000 characters")]
-        public string Comment { get; set; }
+        public required string Comment { get; set; }
     }
 
     public class ReviewDTO
@@ -23,7 +23,7 @@ namespace Sayara.Models.DTOs
         [Required]
         public int ReviewerId { get; set; }
 
-        public string ReviewerName { get; set; }
+        public string? ReviewerName { get; set; }
 
         [Required]
         public int RevieweeId { get; set; }
@@ -34,7 +34,7 @@ namespace Sayara.Models.DTOs
 
         [Required]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "Comment must be between 10 and 1000 characters")]
-        public string Comment { get; set; }
+        public required string Comment { get; set; }
 
         public DateTime CreatedAt { get; set; }
     }

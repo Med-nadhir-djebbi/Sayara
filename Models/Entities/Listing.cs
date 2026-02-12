@@ -7,17 +7,17 @@ namespace Sayara.Models.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         public int BrandId { get; set; }
-        public string Model { get; set; }
+        public required string Model { get; set; }
         public int Year { get; set; }
         public int Mileage { get; set; }
         public EngineType EngineType { get; set; }
         public TransmissionType TransmissionType { get; set; }
         public int FiscalPower { get; set; }
         public decimal CylinderCapacity { get; set; }
-        public string Color { get; set; }
-        public string Description { get; set; }
+        public required string Color { get; set; }
+        public required string Description { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public User User { get; set; }
+        public User User { get; set; } = default!;
         public ICollection<ListingImage> Images { get; set; } = new List<ListingImage>();
     }
 }

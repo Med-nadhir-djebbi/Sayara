@@ -1,41 +1,193 @@
 @{
-    ViewData["Title"] = "Cars for Sale";
+    ViewData["Title"] = "Luxury Cars for Sale";
 }
 
-<div class="container" style="padding: 40px 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h2 style="color: var(--primary-blue);">Cars for Sale</h2>
-        <a href="/create?type=sale" class="btn btn-success" id="createBtn" style="display:none;">Sell Your Car</a>
+<div class="container py-5 animate-fade-in">
+    <!-- Premium Header -->
+    <div class="row align-items-center mb-5 reveal">
+        <div class="col-lg-8">
+            <h1 class="display-3 font-weight-bold mb-3">Pinnacle <span class="text-primary">Collection</span></h1>
+            <p class="text-muted lead mb-0">Own the extraordinary. Explore our curated selection of verified high-end vehicles, each representing the zenith of performance and style.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+            <div class="d-inline-flex align-items-center p-3 bg-light rounded-pill px-4 border">
+                <i class="fas fa-certificate text-primary me-3 fs-4"></i>
+                <div class="text-start">
+                    <div class="fw-bold text-dark" style="font-size: 0.9rem;">Certified Luxury</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">Premium Verified Listings</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Simple Filter -->
-    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
-        <form id="filterForm" style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <input type="text" name="Brand" placeholder="Brand (e.g. Toyota)" class="form-control" style="flex: 1; min-width: 200px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
-            <input type="number" name="MaxPrice" placeholder="Max Price" class="form-control" style="flex: 1; min-width: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
-            <input type="number" name="MinYear" placeholder="Min Year" class="form-control" style="flex: 1; min-width: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-    </div>
+    <div class="row g-5">
+        <!-- Main Content Area (Left, 3/4 width) -->
+        <div class="col-lg-9 order-lg-1">
+            <div class="listings-grid-three" id="saleListings">
+                <!-- Skeleton Loaders -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+        </div>
 
-    <div class="listings-grid" id="saleListings">
-        <!-- Loaded via JS -->
+        <!-- Right Sidebar Filters (Right, 1/4 width) -->
+        <div class="col-lg-3 order-lg-2">
+            <div class="sidebar-filters reveal">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="font-weight-bold mb-0">Refine Selection</h5>
+                    <i class="fas fa-filter text-muted"></i>
+                </div>
+                
+                <form id="filterForm" class="d-flex flex-column gap-4">
+                    <!-- Brand & Model -->
+                    <div class="filter-section">
+                        <h6 class="filter-section-title">Brand & Model</h6>
+                        <div class="filter-group">
+                            <label class="filter-label">Make</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-car icon-blue"></i>
+                                <input type="text" name="Brand" placeholder="e.g. Porsche" class="filter-input">
+                            </div>
+                        </div>
+                        <div class="filter-group mt-3">
+                            <label class="filter-label">Model</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-tag icon-blue"></i>
+                                <input type="text" name="Model" placeholder="e.g. 911 GT3" class="filter-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="filter-section mt-2">
+                        <h6 class="filter-section-title">Investment Range</h6>
+                        <div class="filter-group">
+                            <label class="filter-label">Price ($)</label>
+                            <div class="dual-inputs">
+                                <input type="number" name="MinPrice" placeholder="Min" class="filter-input no-icon">
+                                <input type="number" name="MaxPrice" placeholder="Max" class="filter-input no-icon">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mechanicals -->
+                    <div class="filter-section mt-2">
+                        <h6 class="filter-section-title">Mechanicals</h6>
+                        <div class="filter-group">
+                            <label class="filter-label">Drivetrain</label>
+                            <select name="EngineType" class="filter-input no-icon mb-2">
+                                <option value="">Any Engine</option>
+                                <option value="0">Petrol</option>
+                                <option value="1">Diesel</option>
+                                <option value="2">Electric</option>
+                                <option value="3">Hybrid</option>
+                            </select>
+                            <select name="TransmissionType" class="filter-input no-icon">
+                                <option value="">Any Transmission</option>
+                                <option value="0">Manual</option>
+                                <option value="1">Automatic</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="filter-action-group pt-4">
+                        <button type="submit" class="btn btn-primary-premium w-100 mb-3 py-3 shadow-sm">
+                            <i class="fas fa-search me-2"></i> Search Collection
+                        </button>
+                        <button type="reset" class="btn-reset w-100 py-2" onclick="setTimeout(() => loadListings(), 10)">
+                            Reset All Filters
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .section-header-clean { text-align: left; }
+    
+    .sidebar-filters {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        position: sticky;
+        top: 110px;
+    }
+
+    .filter-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 5px; }
+    .filter-label { 
+        font-size: 0.8rem; 
+        font-weight: 700; 
+        color: #64748b; 
+        text-transform: uppercase; 
+        letter-spacing: 0.8px;
+    }
+
+    .input-with-icon { position: relative; }
+    .icon-blue { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--primary-blue); font-size: 0.85rem; }
+    
+    .filter-input {
+        width: 100%; padding: 10px 12px 10px 38px; border-radius: 10px;
+        border: 1px solid #cbd5e1; background: white; font-weight: 600; font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+    .filter-input.no-icon { padding-left: 14px; }
+    .filter-input:focus { border-color: var(--primary-blue); outline: none; box-shadow: 0 0 0 3px rgba(0, 80, 158, 0.1); }
+
+    .dual-inputs { display: flex; gap: 10px; }
+
+    .btn-primary-premium {
+        background: var(--primary-blue); color: white; border-radius: 10px; 
+        font-weight: 700; border: none; transition: 0.3s;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .btn-primary-premium:hover { background: var(--primary-blue-dark); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 80, 158, 0.2); }
+
+    .btn-reset {
+        background: transparent; color: #64748b; border: 1px solid #e2e8f0;
+        border-radius: 10px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; cursor: pointer;
+    }
+    .btn-reset:hover { background: #f1f5f9; color: #1e293b; }
+
+    /* 3-Column Listing Grid in 9/12 context */
+    .listings-grid-three {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    @@media (max-width: 1200px) {
+        .listings-grid-three { grid-template-columns: repeat(2, 1fr); }
+    }
+    @@media (max-width: 768px) {
+        .listings-grid-three { grid-template-columns: 1fr; }
+    }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+</style>
 
 <script>
     const container = document.getElementById('saleListings');
 
     async function loadListings(filterData = {}) {
-        container.innerHTML = '<p>Loading...</p>';
+        container.innerHTML = `
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        `;
+
         try {
             let url = '/api/Listings/sale';
             let method = 'GET';
             let body = null;
             let headers = {};
 
-            // If filtering, change to POST
-            if (Object.keys(filterData).length > 0 && (filterData.Brand || filterData.MaxPrice || filterData.MinYear)) {
+            if (Object.keys(filterData).length > 0) {
                 url = '/api/Listings/filter/sale';
                 method = 'POST';
                 body = JSON.stringify(filterData);
@@ -49,46 +201,73 @@
 
             if (response.ok && result.data && result.data.length > 0) {
                 result.data.forEach(item => {
+                    const imageUrl = (item.imageUrls && item.imageUrls.length > 0) 
+                        ? item.imageUrls[0] 
+                        : 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800';
+
                     const card = document.createElement('div');
-                    card.className = 'listing-card';
+                    card.className = 'listing-card premium-shadow reveal';
                     card.innerHTML = `
-                        <div class="card-img">
-                            <img src="https://placehold.co/400x300?text=${encodeURIComponent(item.model)}" alt="${item.model}" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="card-img" style="height: 180px;">
+                            <img src="${imageUrl}" alt="${item.model}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+                            <div class="card-badge">Certified</div>
                         </div>
-                        <div class="card-body">
-                            <div class="card-title">${item.brand} ${item.model}</div>
-                            <div class="card-price">$${item.price.toLocaleString()}</div>
-                            <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
-                                ${item.year} • ${item.mileage} km
+                        <div class="card-body" style="padding: 18px;">
+                            <div class="card-meta" style="display:flex; gap:10px; font-size:0.75rem; color:#64748b; margin-bottom:8px;">
+                                <span><i class="fas fa-calendar-alt"></i> ${item.year}</span>
+                                <span><i class="fas fa-certificate text-primary"></i> Luxury</span>
                             </div>
-                            <a href="/details/${item.id}?type=sale" class="btn btn-primary" style="width: 100%; margin-top: 16px;">View Details</a>
+                            <h5 style="margin: 0 0 10px; font-weight: 800; font-size: 1.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.brandName || ''} ${item.model}</h5>
+                            <div class="card-footer" style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f1f5f9; padding-top:10px;">
+                                <div style="font-size: 1.2rem; font-weight: 800; color: #00509E;">$${(item.price || 0).toLocaleString()}</div>
+                                <button onclick="window.location.href='/details/${item.id}?type=sale'" class="btn-icon" style="width:32px; height:32px; font-size:0.8rem;">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
                         </div>
                     `;
                     container.appendChild(card);
                 });
+                
+                initScrollReveal();
             } else {
-                container.innerHTML = '<p>No listings found.</p>';
+                container.innerHTML = '<div class="text-center w-100 py-5"><p class="text-muted">No matching vehicles found.</p></div>';
             }
         } catch (err) {
             console.error(err);
-            container.innerHTML = '<p>Error loading listings.</p>';
         }
+    }
+
+    function initScrollReveal() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
     document.addEventListener("DOMContentLoaded", () => {
         loadListings();
+        initScrollReveal();
         
-        // Show create button if logged in
-        if (localStorage.getItem('token')) {
-            document.getElementById('createBtn').style.display = 'inline-flex';
-        }
-
         document.getElementById('filterForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            // Clean up empty strings
-            Object.keys(data).forEach(key => data[key] === "" && delete data[key]);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (value !== "") {
+                    if (!isNaN(value) && value.trim() !== "") {
+                        data[key] = parseFloat(value);
+                    } else {
+                        data[key] = value;
+                    }
+                }
+            });
             loadListings(data);
         });
     });

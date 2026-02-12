@@ -1,0 +1,107 @@
+@model dynamic
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="profile-container" style="padding-top: 120px; min-height: 100vh; background: #f8f9fa;">
+    <div class="container">
+        <div class="profile-card" style="background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+            
+            <!-- Cover / Header Section -->
+            <div class="profile-header" style="height: 200px; background: linear-gradient(135deg, var(--primary-blue), #003366); position: relative;">
+                <div class="user-avatar-large" style="width: 120px; height: 120px; border-radius: 60px; background: white; border: 4px solid white; position: absolute; bottom: -60px; left: 60px; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 800; color: var(--primary-blue); box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <span id="avatarInitials">U</span>
+                </div>
+            </div>
+
+            <div class="profile-body" style="padding: 80px 60px 60px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+                    <div>
+                        <h1 id="userName" style="font-size: 2.5rem; font-weight: 800; margin-bottom: 8px;">Loading profile...</h1>
+                        <p id="userRole" style="font-size: 1.1rem; color: #666; font-weight: 500;"></p>
+                    </div>
+                    <button class="btn btn-outline" style="border-radius: 12px; padding: 12px 24px;">Edit Profile</button>
+                </div>
+
+                <div class="info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+                    <div class="info-item" style="background: #f8f9fa; padding: 24px; border-radius: 16px;">
+                        <span style="display: block; font-size: 0.9rem; color: #888; font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Email Address</span>
+                        <span id="userEmail" style="font-size: 1.2rem; font-weight: 600; color: #333;">-</span>
+                    </div>
+                    <div class="info-item" style="background: #f8f9fa; padding: 24px; border-radius: 16px;">
+                        <span style="display: block; font-size: 0.9rem; color: #888; font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Phone Number</span>
+                        <span id="userPhone" style="font-size: 1.2rem; font-weight: 600; color: #333;">-</span>
+                    </div>
+                    <div class="info-item" style="background: #f8f9fa; padding: 24px; border-radius: 16px;">
+                        <span style="display: block; font-size: 0.9rem; color: #888; font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Member Since</span>
+                        <span id="userJoinDate" style="font-size: 1.2rem; font-weight: 600; color: #333;">-</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 60px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">Security</h3>
+                    <button class="btn btn-primary" onclick="logout()" style="background: #d32f2f; border: none; padding: 12px 32px; border-radius: 12px;">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                window.location.href = "/login?returnUrl=/profile";
+                return;
+            }
+
+            try {
+                // In a real app we'd get the ID from the token, 
+                // but since our API requires an ID as a query param currently,
+                // we'll try to find it in localStorage if we stored it, or handle it gracefully.
+                // For this implementation, we'll assume the API should probably have a 'get-me' endpoint.
+                // But looking at UsersController.cs:18, it takes 'id' from query.
+                // Let's decode the token to get the sub (ID) or email.
+                
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+
+                const payload = JSON.parse(jsonPayload);
+                const userId = payload.sub || payload.nameid;
+
+                const response = await fetch(`/api/Users/profile?id=${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const user = result.data;
+                    
+                    document.getElementById('userName').innerText = `${user.firstName} ${user.lastName}`;
+                    document.getElementById('userEmail').innerText = user.email;
+                    document.getElementById('userPhone').innerText = user.phoneNumber || 'Not provided';
+                    document.getElementById('userRole').innerText = user.role;
+                    document.getElementById('userJoinDate').innerText = new Date(user.createdAt).toLocaleDateString();
+                    document.getElementById('avatarInitials').innerText = user.firstName[0] + user.lastName[0];
+                } else {
+                    console.error("Failed to fetch profile");
+                    if (response.status === 401) {
+                         logout();
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "/";
+        }
+    </script>
+}

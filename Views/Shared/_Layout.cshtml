@@ -4,29 +4,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sayara</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
-    <header class="main-header">
-        <div class="container nav-container">
-            <a href="/" class="logo">Sayara<span>.</span></a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Listings" asp-action="SaleView">Buy Car</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Listings" asp-action="RentView">Rent Car</a>
-                    </li>
-                    <li><a href="/login" class="nav-link btn btn-outline" id="loginBtn" style="padding: 8px 20px;">Login</a></li>
-                    <li><a href="/register" class="nav-link btn btn-primary" id="registerBtn" style="padding: 8px 20px;">Register</a></li>
-                    <li id="userProfileDisplay" style="display:none;">
-                         <a href="/Users/Profile" class="nav-link">My Profile</a>
-                    </li>
+<body class="loading">
+    <!-- Premium Navigation Bar -->
+    <header class="navbar-premium">
+        <div class="container nav-box">
+            <a href="/" class="brand-logo">Sayara<span>.</span></a>
+            
+            <nav class="nav-menu">
+                <ul class="nav-items">
+                    <li><a href="/" class="nav-item-link active">Home</a></li>
+                    <li><a href="/sale" class="nav-item-link">Sale</a></li>
+                    <li><a href="/rent" class="nav-item-link">Rentals</a></li>
                 </ul>
             </nav>
+
+            <div class="nav-actions">
+                <div id="loggedOutActions" class="auth-group">
+                    <a href="/login" class="auth-btn auth-btn-outline">Sign In</a>
+                    <a href="/register" class="auth-btn auth-btn-primary">Get Started</a>
+                </div>
+                <div id="loggedInActions" style="display:none;" class="auth-group">
+                    <a href="/create" class="btn btn-luxury-small">
+                        <i class="fas fa-plus-circle"></i> Post a Car
+                    </a>
+                    <a href="/profile" class="profile-link">
+                        <i class="fas fa-user-circle"></i> Dashboard
+                    </a>
+                    <button id="logoutBtn" class="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -42,14 +54,22 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
-        // Simple Auth Check
+        // Auth State Management
         document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.remove('loading');
+
             const token = localStorage.getItem("token");
             if (token) {
-                document.getElementById("loginBtn").style.display = 'none';
-                document.getElementById("registerBtn").style.display = 'none';
-                document.getElementById("userProfileDisplay").style.display = 'block';
+                document.getElementById("loggedOutActions").style.display = 'none';
+                document.getElementById("loggedInActions").style.display = 'flex';
+                document.getElementById("loggedInActions").style.alignItems = 'center';
             }
+
+            document.getElementById('logoutBtn')?.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/';
+            });
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

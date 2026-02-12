@@ -4,7 +4,7 @@ namespace Sayara.Services
 {
     public interface IReviewService
     {
-        Task<ReviewDTO> GetReviewAsync(int id);
+        Task<ReviewDTO?> GetReviewAsync(int id);
         Task<List<ReviewDTO>> GetReviewsByListingAsync(int listingId);
         Task<List<ReviewDTO>> GetReviewsByUserAsync(int userId);
         Task<int> CreateReviewAsync(ReviewDTO reviewDto);

@@ -4,7 +4,7 @@ namespace Sayara.Repositories
 {
     public interface IReviewRepository
     {
-        Task<Review> GetByIdAsync(int id);
+        Task<Review?> GetByIdAsync(int id);
         Task<List<Review>> GetAllAsync();
         Task<List<Review>> GetReviewsForUserAsync(int revieweeId);
         Task<List<Review>> GetReviewsByUserAsync(int reviewerId);

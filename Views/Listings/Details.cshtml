@@ -1,64 +1,135 @@
 @{
-    ViewData["Title"] = "Listing Details";
+    ViewData["Title"] = "Vehicle Experience";
 }
 
-<div class="container" style="padding: 40px 20px;">
-    <div id="loading" style="text-align:center;">Loading details...</div>
-    
-    <div id="detailsContent" style="display:none;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-            <!-- Left: Images -->
-            <div>
-                 <img id="mainImage" src="" alt="Vehicle" style="width: 100%; border-radius: 12px; height: 400px; object-fit: cover; background: #eee;">
-            </div>
-            
-            <!-- Right: Info -->
-            <div>
-                <h1 id="title" style="color: var(--primary-blue); margin-bottom: 8px;"></h1>
-                <h2 id="price" style="color: var(--primary-green); margin-bottom: 24px;"></h2>
-                
-                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: var(--shadow-sm); margin-bottom: 24px;">
-                    <h3 style="margin-bottom: 16px; font-size: 1.2rem;">Vehicle Specifications</h3>
-                    <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <li><strong>Brand:</strong> <span id="brand"></span></li>
-                        <li><strong>Model:</strong> <span id="model"></span></li>
-                        <li><strong>Year:</strong> <span id="year"></span></li>
-                        <li><strong>Mileage:</strong> <span id="mileage"></span> km</li>
-                        <li><strong>Engine:</strong> <span id="engine"></span></li>
-                        <li><strong>Color:</strong> <span id="color"></span></li>
-                    </ul>
-                </div>
+<div class="details-wrapper animate-fade-in">
+    <div class="container py-5">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumb-nav mb-4">
+            <a href="/">Home</a> / <a href="/sale">Collection</a> / <span id="breadcrumbModel">Loading...</span>
+        </nav>
 
-                <div style="background: white; padding: 24px; border-radius: 12px; box-shadow: var(--shadow-sm);">
-                    <h3 style="margin-bottom: 16px; font-size: 1.2rem;">Description</h3>
-                    <p id="description" style="color: var(--text-dark);"></p>
+        <div id="loading" class="text-center py-5">
+            <div class="spinner-premium"></div>
+            <p class="mt-3 text-muted">Retrieving Vehicle pedigree...</p>
+        </div>
+        
+        <div id="detailsContent" style="display:none;">
+            <div class="row g-5">
+                <!-- Left: Immersive Gallery -->
+                <div class="col-lg-7">
+                    <div class="gallery-container">
+                        <div class="main-stage">
+                            <img id="mainImage" src="" alt="Vehicle Presentation" class="img-fluid rounded-premium shadow-premium">
+                        </div>
+                        <div class="thumbnail-strip mt-3" id="thumbStrip">
+                            <!-- Thumbnails injected here -->
+                        </div>
+                    </div>
                     
-                    <hr style="margin: 20px 0; border-top: 1px solid #eee;">
-                    
-                    <h3 style="margin-bottom: 12px; font-size: 1.2rem;">Seller Info</h3>
-                    <p><strong>Name:</strong> <span id="sellerName"></span></p>
-                    <p><strong>Phone:</strong> <span id="sellerPhone"></span></p>
-                     <p><strong>Rating:</strong> <span id="sellerRating">N/A</span> / 5</p>
-                    
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 24px;" onclick="alert('Contact feature coming soon!')">Contact Seller</button>
+                    <div class="description-box mt-5">
+                        <h3 class="modern-heading">The Story</h3>
+                        <p id="description" class="lead-text"></p>
+                    </div>
+                </div>
+                
+                <!-- Right: Precise Specs & Acquisition -->
+                <div class="col-lg-5">
+                    <div class="sticky-panel">
+                        <div class="info-card premium-card">
+                            <div class="card-header-luxury">
+                                <h1 id="title" class="mb-1"></h1>
+                                <div id="price" class="price-tag"></div>
+                            </div>
+                            
+                            <div class="spec-grid mt-4">
+                                <div class="spec-item">
+                                    <span class="label">Year</span>
+                                    <span class="value" id="year"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="label">Mileage</span>
+                                    <span class="value"><span id="mileage"></span> km</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="label">Engine</span>
+                                    <span class="value" id="engine"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="label">Color</span>
+                                    <span class="value" id="color"></span>
+                                </div>
+                            </div>
+
+                            <hr class="luxury-hr">
+
+                            <div class="seller-brief">
+                                <h5 class="mb-3">Consignment Details</h5>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar-mock"><i class="fas fa-user-tie"></i></div>
+                                    <div class="ml-3">
+                                        <div class="font-weight-bold" id="sellerName"></div>
+                                        <div class="text-muted small">Verified Premium Seller</div>
+                                    </div>
+                                    <div class="ml-auto text-right">
+                                        <div class="rating-badge">
+                                            <i class="fas fa-star text-warning"></i> <span id="sellerRating">5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="small text-muted mb-4"><i class="fas fa-info-circle"></i> Security check completed on vehicle history.</p>
+                                
+                                <button class="btn btn-primary btn-block py-3 mb-2" onclick="alert('Digital concierge will contact you shortly.')">
+                                    Inquire Now <i class="fas fa-paper-plane ml-2"></i>
+                                </button>
+                                <div class="text-center">
+                                    <span class="text-muted small">Reference ID: <span id="listingId"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .rounded-premium { border-radius: 30px; }
+    .shadow-premium { box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
+    .spinner-premium { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+    
+    .breadcrumb-nav { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
+    .breadcrumb-nav a { color: var(--primary-blue); opacity: 0.8; }
+    
+    .price-tag { font-size: 2.5rem; font-weight: 900; color: var(--primary-green); letter-spacing: -1px; }
+    .modern-heading { font-weight: 800; border-left: 5px solid var(--primary-blue); padding-left: 15px; margin-bottom: 25px; }
+    .lead-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-dark); opacity: 0.8; }
+    
+    .premium-card { background: white; border-radius: 32px; padding: 40px; border: 1px solid #f1f5f9; box-shadow: var(--shadow-premium); }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .spec-item { display: flex; flex-direction: column; }
+    .spec-item .label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
+    .spec-item .value { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); }
+    
+    .luxury-hr { border: 0; border-top: 1px solid #f1f5f9; margin: 30px 0; }
+    .avatar-mock { width: 50px; height: 50px; background: #f8fafc; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary-blue); }
+    .rating-badge { background: #fffbeb; color: #92400e; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; }
+    
+    .sticky-panel { position: sticky; top: 120px; }
+    .thumbnail-strip { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
+    .thumb-item { width: 100px; height: 70px; object-fit: cover; border-radius: 12px; cursor: pointer; opacity: 0.6; transition: 0.3s; border: 2px solid transparent; }
+    .thumb-item.active { opacity: 1; border-color: var(--primary-blue); }
+    
+    @@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
-        // Parse URL params manually since we use basic routing
         const pathParts = window.location.pathname.split('/');
-        const id = pathParts[pathParts.length - 1]; // Last part is ID
+        const id = pathParts[pathParts.length - 1];
         const urlParams = new URLSearchParams(window.location.search);
-        const type = urlParams.get('type'); // 'sale' or 'rent'
-
-        if (!id || !type) {
-             document.getElementById('loading').innerText = "Invalid listing.";
-             return;
-        }
+        const type = urlParams.get('type') || 'sale';
 
         try {
             const response = await fetch(`/api/Listings/${type}/${id}`);
@@ -66,39 +137,52 @@
 
             if (response.ok && result.data) {
                 const item = result.data;
-                const isRent = type === 'rent';
-
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('detailsContent').style.display = 'block';
                 
-                document.getElementById('mainImage').src = `https://placehold.co/800x600?text=${encodeURIComponent(item.model)}`;
-                document.getElementById('title').innerText = `${item.brand} ${item.model}`;
+                document.getElementById('breadcrumbModel').innerText = item.model;
+                document.getElementById('title').innerText = `${item.brandName || ''} ${item.model}`;
+                document.getElementById('listingId').innerText = item.id;
                 
-                if (isRent) {
+                if (type === 'rent') {
                     document.getElementById('price').innerText = `$${item.dailyRate}/day`;
                 } else {
-                    document.getElementById('price').innerText = `$${item.price.toLocaleString()}`;
+                    document.getElementById('price').innerText = `$${(item.price || 0).toLocaleString()}`;
                 }
 
-                document.getElementById('brand').innerText = item.brand;
-                document.getElementById('model').innerText = item.model;
                 document.getElementById('year').innerText = item.year;
-                document.getElementById('mileage').innerText = item.mileage;
-                document.getElementById('engine').innerText = item.engineType || 'N/A';
+                document.getElementById('mileage').innerText = item.mileage.toLocaleString();
+                document.getElementById('engine').innerText = item.engineType || 'Petrol/V8';
                 document.getElementById('color').innerText = item.color;
-                document.getElementById('description').innerText = item.description;
-                
+                document.getElementById('description').innerText = item.description || 'No detailed history provided for this vehicle.';
                 document.getElementById('sellerName').innerText = item.sellerName;
-                document.getElementById('sellerPhone').innerText = item.sellerPhone;
-                if (item.sellerRating) {
-                     document.getElementById('sellerRating').innerText = item.sellerRating.toFixed(1);
-                }
+                
+                if (item.sellerRating) document.getElementById('sellerRating').innerText = item.sellerRating.toFixed(1);
+
+                // Gallery Logic
+                const images = item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls : [`https://source.unsplash.com/1200x800/?luxury-car&sig=${item.id}`];
+                const mainImg = document.getElementById('mainImage');
+                const strip = document.getElementById('thumbStrip');
+                
+                mainImg.src = images[0];
+                
+                images.forEach((url, index) => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.className = `thumb-item ${index === 0 ? 'active' : ''}`;
+                    img.onclick = () => {
+                        mainImg.src = url;
+                        document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+                        img.classList.add('active');
+                    };
+                    strip.appendChild(img);
+                });
             } else {
-                document.getElementById('loading').innerText = "Listing not found.";
+                document.getElementById('loading').innerHTML = '<div class="alert alert-danger">Vehicle collection currently unavailable.</div>';
             }
         } catch (err) {
             console.error(err);
-             document.getElementById('loading').innerText = "Error loading details.";
+            document.getElementById('loading').innerText = "Pedigree synchronization failed.";
         }
     });
 </script>

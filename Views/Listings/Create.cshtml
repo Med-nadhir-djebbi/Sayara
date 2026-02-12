@@ -2,207 +2,275 @@
     ViewData["Title"] = "Create Listing";
 }
 
-<div class="container" style="max-width: 900px; padding: 40px 20px;">
+<div class="container animate-fade-in" style="max-width: 1000px; padding: 60px 20px; min-height: calc(100vh - 180px); display: flex; flex-direction: column; justify-content: center;">
     
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h1 id="pageTitle" style="font-weight: 800; color: var(--primary-blue); margin-bottom: 10px;">Create Listing</h1>
-        <p style="color: var(--text-muted);">Fill in the details below to list your vehicle.</p>
+    <div style="text-align: center; margin-bottom: 50px;">
+        <div class="hero-badge mb-3">New Listing</div>
+        <h1 id="pageTitle" class="section-title mb-2">Publish Your <span class="text-primary">Masterpiece</span></h1>
+        <p class="text-muted">Fill in the specifications to present your vehicle to our exclusive network.</p>
+        
+        <!-- Listing Type Toggle -->
+        <div class="toggle-container mt-4">
+            <button type="button" id="saleToggle" class="type-btn active" onclick="setType('sale')">For Sale</button>
+            <button type="button" id="rentToggle" class="type-btn" onclick="setType('rent')">For Rent</button>
+        </div>
     </div>
 
-    <form id="createForm">
-        <div style="display: grid; gap: 30px;">
+    <form id="createForm" enctype="multipart/form-data">
+        <input type="hidden" name="ListingType" id="listingType" value="sale">
+        <div class="stack-layout">
             
-            <!-- Section 1: Vehicle Details -->
-            <div class="card" style="border: none; box-shadow: var(--shadow-sm); border-radius: 16px; overflow: hidden;">
-                <div style="background: var(--bg-light); padding: 16px 24px; border-bottom: 1px solid #eee;">
-                    <h5 style="margin: 0; font-weight: 700; color: var(--primary-blue);">Vehicle Details</h5>
+            <!-- Section 1: Identity -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">01</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Vehicle Identity</h5>
                 </div>
-                <div style="padding: 24px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
-                         <div>
-                             <label class="form-label">Brand</label>
-                             <input type="text" name="Brand" class="form-control" placeholder="e.g. BMW" required>
-                         </div>
-                         <div>
-                             <label class="form-label">Model</label>
-                             <input type="text" name="Model" class="form-control" placeholder="e.g. X5" required>
-                         </div>
-                         <div>
-                             <label class="form-label">Year</label>
-                             <input type="number" name="Year" class="form-control" placeholder="e.g. 2023" required>
-                         </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label">Brand</label>
+                        <select name="BrandId" class="form-control-premium" required>
+                            <option value="" disabled selected>Select Brand</option>
+                            <option value="1">Audi</option>
+                            <option value="2">BMW</option>
+                            <option value="3">Mercedes</option>
+                            <option value="4">Porsche</option>
+                            <option value="5">Volkswagen</option>
+                            <option value="6">Toyota</option>
+                        </select>
                     </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 24px;">
-                         <div>
-                             <label class="form-label">Mileage (km)</label>
-                             <input type="number" name="Mileage" class="form-control" placeholder="0" required>
-                         </div>
-                         <div>
-                             <label class="form-label">Color</label>
-                             <input type="text" name="Color" class="form-control" placeholder="e.g. Black" required>
-                         </div>
-                         <div>
-                             <label class="form-label">Transmission</label>
-                             <select name="Transmission" class="form-control">
-                                 <option value="Automatic">Automatic</option>
-                                 <option value="Manual">Manual</option>
-                             </select>
-                         </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Model</label>
+                        <input type="text" name="Model" class="form-control-premium" placeholder="e.g. 911 GT3" required>
                     </div>
-                </div>
-            </div>
-
-            <!-- Section 2: Pricing -->
-            <div class="card" style="border: none; box-shadow: var(--shadow-sm); border-radius: 16px; overflow: hidden;">
-                <div style="background: var(--bg-light); padding: 16px 24px; border-bottom: 1px solid #eee;">
-                    <h5 style="margin: 0; font-weight: 700; color: var(--primary-green);">Pricing</h5>
-                </div>
-                <div style="padding: 24px;">
-                    <!-- Sale Inputs -->
-                    <div id="saleFields" style="display:none;">
-                         <label class="form-label">Asking Price ($)</label>
-                         <div style="position: relative;">
-                             <span style="position: absolute; left: 16px; top: 14px; color: #888;">$</span>
-                             <input type="number" name="Price" id="priceInput" class="form-control" style="padding-left: 32px;" placeholder="0.00">
-                         </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Year of Manufacture</label>
+                        <input type="number" name="Year" class="form-control-premium" placeholder="2024" required>
                     </div>
-
-                    <!-- Rent Inputs -->
-                    <div id="rentFields" style="display:none; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
-                        <div>
-                             <label class="form-label">Daily Rate ($)</label>
-                             <input type="number" name="DailyRate" class="form-control" placeholder="0.00">
-                        </div>
-                        <div>
-                             <label class="form-label">Weekly Rate ($)</label>
-                             <input type="number" name="WeeklyRate" class="form-control" placeholder="0.00">
-                        </div>
-                        <div>
-                             <label class="form-label">Monthly Rate ($)</label>
-                             <input type="number" name="MonthlyRate" class="form-control" placeholder="0.00">
-                        </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Mileage (KM)</label>
+                        <input type="number" name="Mileage" class="form-control-premium" placeholder="0" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Exterior Color</label>
+                        <input type="text" name="Color" class="form-control-premium" placeholder="e.g. Shark Blue" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Transmission</label>
+                        <select name="TransmissionType" class="form-control-premium" required>
+                            <option value="0">Manual</option>
+                            <option value="1" selected>Automatic</option>
+                            <option value="2">CVT</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Section 3: Description -->
-            <div class="card" style="border: none; box-shadow: var(--shadow-sm); border-radius: 16px; overflow: hidden;">
-                <div style="background: var(--bg-light); padding: 16px 24px; border-bottom: 1px solid #eee;">
-                    <h5 style="margin: 0; font-weight: 700; color: #555;">Additional Information</h5>
+            <!-- Section 2: Performance -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">02</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Performance Specs</h5>
                 </div>
-                <div style="padding: 24px;">
-                     <label class="form-label">Description</label>
-                     <textarea name="Description" required rows="5" class="form-control" placeholder="Tell potential buyers about key features, condition, etc..."></textarea>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label">Engine Architecture</label>
+                        <select name="EngineType" class="form-control-premium" required>
+                            <option value="0">Petrol</option>
+                            <option value="1">Diesel</option>
+                            <option value="2">Electric</option>
+                            <option value="3">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fiscal Power (HP)</label>
+                        <input type="number" name="FiscalPower" class="form-control-premium" placeholder="e.g. 15" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Displacement (Liters)</label>
+                        <input type="number" step="0.1" name="CylinderCapacity" class="form-control-premium" placeholder="e.g. 4.0" required>
+                    </div>
                 </div>
             </div>
 
-            <!-- Action -->
-            <button type="submit" class="btn btn-primary" style="padding: 16px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,80,158,0.3);">
-                Post Listing
-            </button>
+            <!-- Section 3: Commercial -->
+            <div class="premium-card p-4 mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">03</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">Valuation & Media</h5>
+                </div>
+                
+                <div id="salePricing">
+                    <label class="form-label">Acquisition Price ($)</label>
+                    <div class="input-group-premium">
+                        <span class="currency">$</span>
+                        <input type="number" name="Price" id="salePriceInput" class="form-input-clean" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div id="rentPricing" style="display: none;">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Daily Cycle ($)</label>
+                            <input type="number" name="DailyRate" class="form-control-premium" placeholder="0.00">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Weekly Cycle ($)</label>
+                            <input type="number" name="WeeklyRate" class="form-control-premium" placeholder="0.00">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Monthly Cycle ($)</label>
+                            <input type="number" name="MonthlyRate" class="form-control-premium" placeholder="0.00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <label class="form-label d-block mb-3">Vehicle Portrayal</label>
+                    <div class="dropzone-premium" onclick="document.getElementById('photoInput').click()">
+                        <div class="text-center">
+                            <div class="upload-icon-circle mb-3"><i class="fas fa-camera"></i></div>
+                            <p class="font-weight-bold mb-1">Upload High-Res Imagery</p>
+                            <p class="text-muted small">Select up to 10 images of the exterior and interior.</p>
+                        </div>
+                        <input type="file" id="photoInput" name="photos" multiple accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                    </div>
+                    <div id="photoPreviewContainer" class="preview-grid-modern mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Section 4: Narrative -->
+            <div class="premium-card p-4 mb-5">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="step-indicator">04</div>
+                    <h5 class="mb-0 ml-3 font-weight-bold">The Narrative</h5>
+                </div>
+                <textarea name="Description" class="form-control-premium" rows="6" placeholder="Describe the vehicle's provenance, maintenance history, and unique options..."></textarea>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" id="submitBtn" class="btn btn-primary w-100 py-4 shadow-premium">
+                    <i class="fas fa-check-circle mr-2"></i> Confirm and Publish
+                </button>
+            </div>
         </div>
     </form>
 </div>
 
 <style>
-    .form-label {
-        display: block;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 8px;
-        color: #444;
-    }
-    .form-control {
-        width: 100%; 
-        padding: 12px 16px; 
-        border: 1px solid #e0e0e0; 
-        border-radius: 8px;
-        transition: all 0.2s;
-        font-size: 0.95rem;
-    }
-    .form-control:focus {
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 3px rgba(0, 80, 158, 0.1);
-        outline: none;
-    }
+    .stack-layout { display: flex; flex-direction: column; gap: 30px; }
+    .toggle-container { display: inline-flex; background: #f1f5f9; padding: 6px; border-radius: 14px; border: 1px solid #e2e8f0; }
+    .type-btn { padding: 12px 30px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #64748b; font-size: 0.95rem; }
+    .type-btn.active { background: white; color: var(--primary-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    
+    .step-indicator { width: 36px; height: 36px; background: var(--primary-blue); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; }
+    .form-control-premium { width: 100%; padding: 14px 20px; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; transition: 0.3s; font-size: 1rem; }
+    .form-control-premium:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.08); outline: none; }
+    
+    .input-group-premium { display: flex; align-items: center; width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; overflow: hidden; }
+    .input-group-premium .currency { padding: 0 20px; background: #f8fafc; color: #64748b; font-weight: 700; border-right: 1px solid #e2e8f0; height: 55px; line-height: 55px; }
+    .input-group-premium input { border: none; padding: 14px 20px; width: 100%; font-size: 1.2rem; font-weight: 700; }
+    
+    .dropzone-premium { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 20px; padding: 60px 40px; cursor: pointer; transition: 0.3s; }
+    .dropzone-premium:hover { border-color: var(--primary-blue); background: #f1f5f9; }
+    .upload-icon-circle { width: 60px; height: 60px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #94a3b8; margin: 0 auto; box-shadow: var(--shadow-sm); }
+    
+    .preview-grid-modern { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+    .preview-item-luxury { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 1; border: 2px solid #fff; box-shadow: var(--shadow-sm); }
+    .preview-item-luxury img { width: 100%; height: 100%; object-fit: cover; }
+    .remove-trigger { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(4px); font-size: 0.8rem; }
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    let selectedType = 'sale';
+    let uploadedFiles = [];
+
+    function setType(type) {
+        selectedType = type;
+        document.getElementById('listingType').value = type;
+        document.getElementById('saleToggle').classList.toggle('active', type === 'sale');
+        document.getElementById('rentToggle').classList.toggle('active', type === 'rent');
+        document.getElementById('salePricing').style.display = type === 'sale' ? 'block' : 'none';
+        document.getElementById('rentPricing').style.display = type === 'rent' ? 'block' : 'none';
+        document.getElementById('salePriceInput').required = type === 'sale';
+    }
+
+    function handleFileSelect(event) {
+        const files = Array.from(event.target.files);
+        const container = document.getElementById('photoPreviewContainer');
+        
+        files.forEach(file => {
+            uploadedFiles.push(file);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const div = document.createElement('div');
+                div.className = 'preview-item-luxury animate-fade-in';
+                div.innerHTML = `
+                    <img src="${e.target.result}">
+                    <div class="remove-trigger" onclick="removePhoto(this, '${file.name}')">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                container.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function removePhoto(element, fileName) {
+        element.parentElement.remove();
+        uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+    }
+
+    document.getElementById('createForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerHTML;
+        
         // Enforce Login
         if (!localStorage.getItem('token')) {
             window.location.href = '/login?returnUrl=' + encodeURIComponent(window.location.href);
             return;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const type = urlParams.get('type'); 
-        const form = document.getElementById('createForm');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Registering Pedigree...';
 
-        if (type === 'rent') {
-            document.getElementById('pageTitle').innerText = "List Car for Rent";
-            document.getElementById('rentFields').style.display = "grid";
-        } else {
-             document.getElementById('pageTitle').innerText = "Sell Your Car";
-             document.getElementById('saleFields').style.display = "block";
-             document.getElementById('priceInput').required = true;
-        }
+        const formData = new FormData(e.target);
+        formData.delete('photos'); 
+        uploadedFiles.forEach(file => formData.append('photos', file));
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "Publishing...";
-
-            // Construct payload
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Numeric conversions
-            ['Year', 'Mileage', 'Price', 'DailyRate', 'WeeklyRate', 'MonthlyRate'].forEach(key => {
-                if(data[key]) data[key] = Number(data[key]);
+        try {
+            const endpoint = selectedType === 'sale' ? '/api/Listings/sale' : '/api/Listings/rent';
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                body: formData
             });
 
-            // Hardcoded defaults
-            data.EngineType = "Gasoline"; 
-            data.Transmission = data.Transmission || "Automatic"; // Use form value if present
-            data.FiscalPower = 10;
-            data.CylinderCapacity = 2.0;
-            data.Governorate = "Tunis";
-            data.City = "Tunis";
+            const result = await response.json();
 
-            try {
-                const endpoint = type === 'rent' ? '/api/Listings/rent' : '/api/Listings/sale';
-                
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (response.ok) {
-                    // Success visual
-                    btn.innerText = "Success!",
-                    btn.style.backgroundColor = "var(--primary-green)";
-                    setTimeout(() => {
-                        window.location.href = '/vehicles'; // Redirect to unified page
-                    }, 1000);
-                } else {
-                    alert('Failed to create listing');
-                    btn.disabled = false;
-                    btn.innerText = originalText;
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Error submitting form');
+            if (response.ok) {
+                btn.style.background = '#059669';
+                btn.innerHTML = '<i class="fas fa-check-double mr-2"></i> Published to Marketplace';
+                setTimeout(() => window.location.href = '/vehicles', 1500);
+            } else {
+                let errorMsg = result.message || 'Synchronization failed';
+                if (result.errors) errorMsg = Object.values(result.errors).flat().join('\n');
+                alert(errorMsg);
                 btn.disabled = false;
-                btn.innerText = originalText;
+                btn.innerHTML = originalText;
             }
-        });
+        } catch (err) {
+            console.error(err);
+            alert('A network error interrupted the transmission.');
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('type') === 'rent') setType('rent');
     });
 </script>

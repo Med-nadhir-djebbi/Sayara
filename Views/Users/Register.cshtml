@@ -228,7 +228,13 @@
                     setTimeout(() => window.location.href = '/login', 1000);
                 } else {
                     const errorDiv = document.getElementById('errorMsg');
-                    errorDiv.innerText = result.message || 'Registration failed';
+                    if (result.errors) {
+                        // Handle validation errors if structure is { errors: { field: [messages] } }
+                        const messages = Object.values(result.errors).flat();
+                        errorDiv.innerText = messages.join('\n');
+                    } else {
+                        errorDiv.innerText = result.message || 'Registration failed';
+                    }
                     errorDiv.style.display = 'block';
                     btn.disabled = false;
                     btn.innerText = originalText;

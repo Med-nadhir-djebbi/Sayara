@@ -13,7 +13,7 @@ namespace Sayara.Repositories
             _context = context;
         }
 
-        public async Task<Review> GetByIdAsync(int id)
+        public async Task<Review?> GetByIdAsync(int id)
         {
             return await _context.Reviews.FirstOrDefaultAsync(r => r.Id == id);
         }

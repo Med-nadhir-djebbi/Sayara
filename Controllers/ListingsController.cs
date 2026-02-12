@@ -21,16 +21,14 @@ namespace Sayara.Controllers
         [HttpGet]
         public IActionResult SaleView()
         {
-            ViewBag.InitialType = "sale";
-            return View("Vehicles");
+            return View("Sale");
         }
 
         [Route("/rent")]
         [HttpGet]
         public IActionResult RentView()
         {
-            ViewBag.InitialType = "rent";
-            return View("Vehicles");
+            return View("Rent");
         }
 
         [Route("/vehicles")]
@@ -104,7 +102,7 @@ namespace Sayara.Controllers
 
         [Authorize]
         [HttpPost("sale")]
-        public async Task<ActionResult<ApiResponse<int>>> CreateSale([FromBody] CreateSaleListingDTO createDto)
+        public async Task<ActionResult<ApiResponse<int>>> CreateSale([FromForm] CreateSaleListingDTO createDto, IFormFileCollection photos)
         {
             var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out int userId))
@@ -112,13 +110,13 @@ namespace Sayara.Controllers
                 return Unauthorized(new ApiResponse<string> { Success = false, Message = "Invalid user credentials" });
             }
 
-            var id = await _listingService.CreateSaleListingAsync(createDto, userId);
+            var id = await _listingService.CreateSaleListingAsync(createDto, userId, photos);
             return Success(id, "Sale listing created", 201);
         }
 
         [Authorize]
         [HttpPost("rent")]
-        public async Task<ActionResult<ApiResponse<int>>> CreateRent([FromBody] CreateRentListingDTO createDto)
+        public async Task<ActionResult<ApiResponse<int>>> CreateRent([FromForm] CreateRentListingDTO createDto, IFormFileCollection photos)
         {
             var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out int userId))
@@ -126,7 +124,7 @@ namespace Sayara.Controllers
                 return Unauthorized(new ApiResponse<string> { Success = false, Message = "Invalid user credentials" });
             }
 
-            var id = await _listingService.CreateRentListingAsync(createDto, userId);
+            var id = await _listingService.CreateRentListingAsync(createDto, userId, photos);
             return Success(id, "Rent listing created", 201);
         }
 

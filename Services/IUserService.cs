@@ -4,8 +4,8 @@ namespace Sayara.Services
 {
     public interface IUserService
     {
-        Task<UserProfileDTO> GetUserByIdAsync(int id);
-        Task<UserProfileDTO> GetUserByEmailAsync(string email);
+        Task<UserProfileDTO?> GetUserByIdAsync(int id);
+        Task<UserProfileDTO?> GetUserByEmailAsync(string email);
         Task<List<UserProfileDTO>> GetAllUsersAsync();
         Task<bool> RegisterAsync(RegisterDTO registerDto);
         Task<string?> LoginAsync(LoginDTO loginDto);

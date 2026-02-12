@@ -23,6 +23,13 @@ namespace Sayara.Controllers
             return Success(result);
         }
 
+        [Route("/profile")]
+        [HttpGet]
+        public IActionResult ProfileView()
+        {
+            return View("Profile");
+        }
+
         [Route("/register")]
         [HttpGet]
         public IActionResult RegisterView()
