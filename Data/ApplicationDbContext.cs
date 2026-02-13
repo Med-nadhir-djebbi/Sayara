@@ -65,12 +65,12 @@ namespace Sayara.Data
             {
                 entity.HasKey(r => r.Id);
                 entity.Property(r => r.CreatedAt);
-                entity.HasOne<User>()
+                entity.HasOne(r => r.Reviewer)
                     .WithMany()
                     .HasForeignKey(r => r.ReviewerId)
                     .OnDelete(DeleteBehavior.Restrict);
-                entity.HasOne<User>()
-                    .WithMany()
+                entity.HasOne(r => r.Reviewee)
+                    .WithMany(u => u.Reviews)
                     .HasForeignKey(r => r.RevieweeId)
                     .OnDelete(DeleteBehavior.Restrict);
                 entity.Property(r => r.Rating).IsRequired();

@@ -7,11 +7,13 @@ namespace Sayara.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IListingRepository _listingRepository;
         private readonly ILogger<ReviewService> _logger;
 
-        public ReviewService(IReviewRepository reviewRepository, ILogger<ReviewService> logger)
+        public ReviewService(IReviewRepository reviewRepository, IListingRepository listingRepository, ILogger<ReviewService> logger)
         {
             _reviewRepository = reviewRepository;
+            _listingRepository = listingRepository;
             _logger = logger;
         }
 
@@ -38,7 +40,14 @@ namespace Sayara.Services
         {
             try
             {
-                var reviews = await _reviewRepository.GetReviewsForUserAsync(listingId);
+                var listing = await _listingRepository.GetByIdAsync(listingId);
+                if (listing == null)
+                {
+                    _logger.LogWarning("Listing with ID {ListingId} not found.", listingId);
+                    return new List<ReviewDTO>();
+                }
+
+                var reviews = await _reviewRepository.GetReviewsForUserAsync(listing.UserId);
                 return reviews.Select(MapToDto).ToList();
             }
             catch (Exception ex)
@@ -167,7 +176,7 @@ namespace Sayara.Services
                 Rating = review.Rating,
                 Comment = review.Comment,
                 CreatedAt = review.CreatedAt,
-                ReviewerName = null // This needs to be populated if navigation property exists
+                ReviewerName = review.Reviewer?.Name ?? "Anonymous"
             };
         }
 

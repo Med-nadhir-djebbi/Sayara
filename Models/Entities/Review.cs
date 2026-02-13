@@ -8,5 +8,9 @@ namespace Sayara.Models.Entities
         public int Rating { get; set; }
         public required string Comment { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Navigation properties
+        public virtual User? Reviewer { get; set; }
+        public virtual User? Reviewee { get; set; }
     }
 }

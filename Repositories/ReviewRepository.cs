@@ -25,12 +25,18 @@ namespace Sayara.Repositories
 
         public async Task<List<Review>> GetReviewsForUserAsync(int revieweeId)
         {
-            return await _context.Reviews.Where(r => r.RevieweeId == revieweeId).ToListAsync();
+            return await _context.Reviews
+                .Include(r => r.Reviewer)
+                .Where(r => r.RevieweeId == revieweeId)
+                .ToListAsync();
         }
 
         public async Task<List<Review>> GetReviewsByUserAsync(int reviewerId)
         {
-            return await _context.Reviews.Where(r => r.ReviewerId == reviewerId).ToListAsync();
+            return await _context.Reviews
+                .Include(r => r.Reviewer)
+                .Where(r => r.ReviewerId == reviewerId)
+                .ToListAsync();
         }
 
         public async Task AddAsync(Review review)
