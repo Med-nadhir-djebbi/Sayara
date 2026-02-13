@@ -9,75 +9,71 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Sayara
 build_property.RootNamespace = Sayara
-build_property.ProjectDir = /home/fares/work/asp.net/project/Sayara/
+build_property.ProjectDir = Z:\Sayara\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/fares/work/asp.net/project/Sayara
+build_property.MSBuildProjectDirectory = Z:\Sayara
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+[Z:/Sayara/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[Z:/Sayara/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Listings/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlzdGluZ3MvQ3JlYXRlLmNzaHRtbA==
+[Z:/Sayara/Views/Listings/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Listings/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlzdGluZ3MvRGV0YWlscy5jc2h0bWw=
+[Z:/Sayara/Views/Listings/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Listings/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlzdGluZ3MvRWRpdC5jc2h0bWw=
+[Z:/Sayara/Views/Listings/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Listings/Rent.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlzdGluZ3MvUmVudC5jc2h0bWw=
+[Z:/Sayara/Views/Listings/Rent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcUmVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Listings/Sale.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlzdGluZ3MvU2FsZS5jc2h0bWw=
+[Z:/Sayara/Views/Listings/Sale.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlzdGluZ3NcU2FsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Listings/Vehicles.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlzdGluZ3MvVmVoaWNsZXMuY3NodG1s
+[Z:/Sayara/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+[Z:/Sayara/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[Z:/Sayara/Views/Users/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Users/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvTG9naW4uY3NodG1s
+[Z:/Sayara/Views/Users/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Users/Profile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvUHJvZmlsZS5jc2h0bWw=
+[Z:/Sayara/Views/Users/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/Users/Register.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvUmVnaXN0ZXIuY3NodG1s
+[Z:/Sayara/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[Z:/Sayara/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/fares/work/asp.net/project/Sayara/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/fares/work/asp.net/project/Sayara/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-gxp7mg6a9d
+[Z:/Sayara/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-favucxgkz6

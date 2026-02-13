@@ -294,7 +294,7 @@
             if (response.ok) {
                 btn.style.background = '#059669';
                 btn.innerHTML = '<i class="fas fa-check-double mr-2"></i> Changes Saved Successfully';
-                setTimeout(() => window.location.href = `/details/${listingId}?type=${type}`, 1500);
+                setTimeout(() => window.location.href = `/${type}`, 1500);
             } else {
                 let errorMsg = result.message || 'Update failed';
                 alert(errorMsg);

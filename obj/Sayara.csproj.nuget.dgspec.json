@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/fares/work/asp.net/project/Sayara/Sayara.csproj": {}
+    "Z:\\Sayara\\Sayara.csproj": {}
   },
   "projects": {
-    "/home/fares/work/asp.net/project/Sayara/Sayara.csproj": {
+    "Z:\\Sayara\\Sayara.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/fares/work/asp.net/project/Sayara/Sayara.csproj",
+        "projectUniqueName": "Z:\\Sayara\\Sayara.csproj",
         "projectName": "Sayara",
-        "projectPath": "/home/fares/work/asp.net/project/Sayara/Sayara.csproj",
-        "packagesPath": "/home/fares/.nuget/packages/",
-        "outputPath": "/home/fares/work/asp.net/project/Sayara/obj/",
+        "projectPath": "Z:\\Sayara\\Sayara.csproj",
+        "packagesPath": "C:\\Users\\azizh\\.nuget\\packages\\",
+        "outputPath": "Z:\\Sayara\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/fares/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\azizh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -93,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.416/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

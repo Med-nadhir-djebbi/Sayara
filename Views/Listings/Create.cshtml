@@ -253,7 +253,7 @@
             if (response.ok) {
                 btn.style.background = '#059669';
                 btn.innerHTML = '<i class="fas fa-check-double mr-2"></i> Published to Marketplace';
-                setTimeout(() => window.location.href = '/vehicles', 1500);
+                setTimeout(() => window.location.href = `/${selectedType}`, 1500);
             } else {
                 let errorMsg = result.message || 'Synchronization failed';
                 if (result.errors) errorMsg = Object.values(result.errors).flat().join('\n');

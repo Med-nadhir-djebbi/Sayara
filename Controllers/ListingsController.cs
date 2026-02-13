@@ -38,12 +38,6 @@ namespace Sayara.Controllers
             return View("Rent");
         }
 
-        [Route("/vehicles")]
-        [HttpGet]
-        public IActionResult VehiclesView()
-        {
-            return View("Vehicles"); // New Unified View
-        }
 
         [Route("/create")]
         [HttpGet]
