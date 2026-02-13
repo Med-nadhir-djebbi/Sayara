@@ -188,10 +188,10 @@ namespace Sayara.Models.DTOs
         public string? Model { get; set; }
 
         [Range(1900, 2100)]
-        public int MinYear { get; set; }
+        public int MinYear { get; set; } = 1900;
 
         [Range(1900, 2100)]
-        public int MaxYear { get; set; }
+        public int MaxYear { get; set; } = 2100;
 
         public int MileageMin { get; set; }
 
