@@ -17,7 +17,7 @@
             
             <nav class="nav-menu">
                 <ul class="nav-items">
-                    <li><a href="/" class="nav-item-link active">Home</a></li>
+                    <li><a href="/" class="nav-item-link">Home</a></li>
                     <li><a href="/sale" class="nav-item-link">Sale</a></li>
                     <li><a href="/rent" class="nav-item-link">Rentals</a></li>
                 </ul>
@@ -58,6 +58,15 @@
         // Auth State Management
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.remove('loading');
+
+            // Dynamic Navbar Logic
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.nav-item-link').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath) {
+                    link.classList.add('active');
+                }
+            });
 
             const token = localStorage.getItem("token");
             if (token) {

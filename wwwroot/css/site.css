@@ -240,8 +240,10 @@ body.loading {
 
 .nav-item-link:hover,
 .nav-item-link.active {
-    background: rgba(0, 80, 158, 0.08);
+    background: rgba(0, 80, 158, 0.1);
     color: var(--primary-blue);
+    box-shadow: 0 0 15px rgba(0, 80, 158, 0.15);
+    transform: translateY(-1px);
 }
 
 /* Auth Section Styles */
