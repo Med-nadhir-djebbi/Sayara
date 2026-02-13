@@ -76,7 +76,13 @@ namespace Sayara.Controllers
             if (result == null) return Error<SaleListingDetailDTO>("Sale listing not found", 404);
             return Success(result);
         }
-
+        [HttpGet("rent/{id}")]
+        public async Task<ActionResult<ApiResponse<RentListingDetailDTO>>> GetRent(int id)
+        {
+            var result = await _listingService.GetRentListingAsync(id);
+            if (result == null) return Error<RentListingDetailDTO>("Rent listing not found", 404);
+            return Success(result);
+        }
         [Authorize]
         [HttpGet("sale/{id}/edit")]
         public async Task<ActionResult<ApiResponse<SaleListingDetailDTO>>> GetSaleForEdit(int id)
@@ -91,15 +97,6 @@ namespace Sayara.Controllers
 
             return Success(listing);
         }
-
-        [HttpGet("rent/{id}")]
-        public async Task<ActionResult<ApiResponse<RentListingDetailDTO>>> GetRent(int id)
-        {
-            var result = await _listingService.GetRentListingAsync(id);
-            if (result == null) return Error<RentListingDetailDTO>("Rent listing not found", 404);
-            return Success(result);
-        }
-
         [Authorize]
         [HttpGet("rent/{id}/edit")]
         public async Task<ActionResult<ApiResponse<RentListingDetailDTO>>> GetRentForEdit(int id)

@@ -152,7 +152,7 @@ namespace Sayara.Repositories
             {
                 _context.Entry(tracked).CurrentValues.SetValues(listing);
             }
-            // If tracked == listing, it's already being tracked and changes will be saved
+            
         }
 
         public async Task DeleteAsync(int id)

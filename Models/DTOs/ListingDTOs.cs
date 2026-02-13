@@ -85,15 +85,15 @@ namespace Sayara.Models.DTOs
         public string? Description { get; set; }
 
         [Required(ErrorMessage = "Daily rate is required")]
-        [Range(0.01, 100000, ErrorMessage = "Daily rate must be greater than 0")]
+        [Range(0, 100000, ErrorMessage = "Daily rate must be non-negative")]
         public decimal DailyRate { get; set; }
 
         [Required(ErrorMessage = "Weekly rate is required")]
-        [Range(0.01, 100000, ErrorMessage = "Weekly rate must be greater than 0")]
+        [Range(0, 100000, ErrorMessage = "Weekly rate must be non-negative")]
         public decimal WeeklyRate { get; set; }
 
         [Required(ErrorMessage = "Monthly rate is required")]
-        [Range(0.01, 100000, ErrorMessage = "Monthly rate must be greater than 0")]
+        [Range(0, 100000, ErrorMessage = "Monthly rate must be non-negative")]
         public decimal MonthlyRate { get; set; }
     }
 

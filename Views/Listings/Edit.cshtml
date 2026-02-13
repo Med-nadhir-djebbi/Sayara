@@ -103,7 +103,7 @@
                     <div class="row g-4 mb-4">
                         <div class="col-12">
                             <label class="form-label">Sale Price (USD)</label>
-                            <input type="number" name="Price" id="priceInput" class="form-control-premium" placeholder="e.g. 150000" required>
+                            <input type="number" name="Price" id="priceInput" class="form-control-premium" placeholder="e.g. 150000">
                         </div>
                     </div>
                 </div>
@@ -215,11 +215,13 @@
                 if (type === 'rent') {
                     document.getElementById('saleSection').style.display = 'none';
                     document.getElementById('rentSection').style.display = 'block';
-                    document.getElementById('dailyRateInput').value = item.dailyRate || '';
-                    document.getElementById('weeklyRateInput').value = item.weeklyRate || '';
-                    document.getElementById('monthlyRateInput').value = item.monthlyRate || '';
+                    document.getElementById('dailyRateInput').value = item.dailyRate || 0;
+                    document.getElementById('weeklyRateInput').value = item.weeklyRate || 0;
+                    document.getElementById('monthlyRateInput').value = item.monthlyRate || 0;
                 } else {
-                    document.getElementById('priceInput').value = item.price;
+                    document.getElementById('saleSection').style.display = 'block';
+                    document.getElementById('rentSection').style.display = 'none';
+                    document.getElementById('priceInput').value = item.price || 0;
                 }
                 console.log('Form loaded successfully');
             } else {
@@ -270,12 +272,12 @@
             description: formData.get('Description')
         };
 
-        if (type === 'sale') {
-            data.price = parseFloat(formData.get('Price'));
+        if (type ==='rent') {
+            data.dailyRate = parseFloat(formData.get('DailyRate')) || 0;
+            data.weeklyRate = parseFloat(formData.get('WeeklyRate')) || 0;
+            data.monthlyRate = parseFloat(formData.get('MonthlyRate')) || 0;
         } else {
-            data.dailyRate = parseFloat(formData.get('DailyRate')) || null;
-            data.weeklyRate = parseFloat(formData.get('WeeklyRate')) || null;
-            data.monthlyRate = parseFloat(formData.get('MonthlyRate')) || null;
+            data.price = parseFloat(formData.get('Price'));
         }
 
         try {
