@@ -166,6 +166,7 @@ namespace Sayara.Services
             }
 
             var saleListing = (SaleListing)listing;
+            saleListing.BrandId = updateDto.BrandId;
             saleListing.Model = updateDto.Model;
             saleListing.Year = updateDto.Year;
             saleListing.Mileage = updateDto.Mileage;
@@ -193,6 +194,7 @@ namespace Sayara.Services
             }
 
             var rentListing = (RentListing)listing;
+            rentListing.BrandId = updateDto.BrandId;
             rentListing.Model = updateDto.Model;
             rentListing.Year = updateDto.Year;
             rentListing.Mileage = updateDto.Mileage;

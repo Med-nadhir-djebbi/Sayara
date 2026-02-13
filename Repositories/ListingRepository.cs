@@ -143,12 +143,16 @@ namespace Sayara.Repositories
 
         public async Task UpdateAsync(Listing listing)
         {
-            var listingExists = await _context.Listings.FirstOrDefaultAsync(l => l.Id == listing.Id);
-            if (listingExists == null)
+            var tracked = _context.Listings.Local.FirstOrDefault(l => l.Id == listing.Id);
+            if (tracked == null)
             {
-                throw new InvalidOperationException($"A listing with Id '{listing.Id}' doesn't exist.");
+                _context.Listings.Update(listing);
             }
-            _context.Listings.Update(listing);
+            else if (tracked != listing)
+            {
+                _context.Entry(tracked).CurrentValues.SetValues(listing);
+            }
+            // If tracked == listing, it's already being tracked and changes will be saved
         }
 
         public async Task DeleteAsync(int id)
@@ -248,9 +252,9 @@ namespace Sayara.Repositories
                 query = query.Where(l => l.Year >= filterDto.MinYear && l.Year <= filterDto.MaxYear);
             }
 
-            if (filterDto.Mileage > 0)
+            if (filterDto.MileageMin > 0 || filterDto.MileageMax > 0)
             {
-                query = query.Where(l => l.Mileage >= filterDto.Mileage);
+                query = query.Where(l => l.Mileage >= filterDto.MileageMin && l.Mileage <= filterDto.MileageMax);
             }
 
             if (filterDto.MinDailyRate > 0 || filterDto.MaxDailyRate > 0)
