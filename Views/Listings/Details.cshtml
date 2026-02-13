@@ -56,8 +56,38 @@
                                     <span class="value" id="engine"></span>
                                 </div>
                                 <div class="spec-item">
+                                    <span class="label">Transmission</span>
+                                    <span class="value" id="transmission"></span>
+                                </div>
+                                <div class="spec-item">
                                     <span class="label">Color</span>
                                     <span class="value" id="color"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="label">Fiscal Power</span>
+                                    <span class="value" id="fiscalPower"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="label">Capacity</span>
+                                    <span class="value" id="cylinderCapacity"></span>
+                                </div>
+                            </div>
+
+                            <div id="rentRatesSection" class="mt-4" style="display:none;">
+                                <h6 class="font-weight-bold text-uppercase small text-muted mb-3">Rental Packages</h6>
+                                <div class="spec-grid">
+                                    <div class="spec-item">
+                                        <span class="label">Daily</span>
+                                        <span class="value text-primary" id="dailyRate"></span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="label">Weekly</span>
+                                        <span class="value text-primary" id="weeklyRate"></span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="label">Monthly</span>
+                                        <span class="value text-primary" id="monthlyRate"></span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -152,14 +182,25 @@
                 
                 if (type === 'rent') {
                     document.getElementById('price').innerText = `$${item.dailyRate}/day`;
+                    document.getElementById('rentRatesSection').style.display = 'block';
+                    document.getElementById('dailyRate').innerText = `$${item.dailyRate}`;
+                    document.getElementById('weeklyRate').innerText = `$${item.weeklyRate}`;
+                    document.getElementById('monthlyRate').innerText = `$${item.monthlyRate}`;
                 } else {
                     document.getElementById('price').innerText = `$${(item.price || 0).toLocaleString()}`;
+                    document.getElementById('rentRatesSection').style.display = 'none';
                 }
+
+                const engineTypes = ['Petrol', 'Diesel', 'Electric', 'Hybrid'];
+                const transmissionTypes = ['Manual', 'Automatic', 'CVT'];
 
                 document.getElementById('year').innerText = item.year;
                 document.getElementById('mileage').innerText = item.mileage.toLocaleString();
-                document.getElementById('engine').innerText = item.engineType || 'Petrol/V8';
+                document.getElementById('engine').innerText = engineTypes[item.engineType] || 'Petrol';
+                document.getElementById('transmission').innerText = transmissionTypes[item.transmissionType] || 'Manual';
                 document.getElementById('color').innerText = item.color;
+                document.getElementById('fiscalPower').innerText = `${item.fiscalPower} CV`;
+                document.getElementById('cylinderCapacity').innerText = `${item.cylinderCapacity} L`;
                 document.getElementById('description').innerText = item.description || 'No detailed history provided for this vehicle.';
                 document.getElementById('sellerName').innerText = item.sellerName;
                 
