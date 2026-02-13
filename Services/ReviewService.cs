@@ -147,6 +147,20 @@ namespace Sayara.Services
             }
         }
 
+        public async Task<List<ReviewDTO>> GetAllReviewsAsync()
+        {
+            try
+            {
+                var reviews = await _reviewRepository.GetAllAsync();
+                return reviews.Select(MapToDto).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all reviews.");
+                throw;
+            }
+        }
+
         public async Task<decimal> GetAverageRatingAsync(int listingId)
         {
             try

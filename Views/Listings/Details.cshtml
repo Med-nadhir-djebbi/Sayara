@@ -251,9 +251,10 @@
                     try {
                         const decoded = JSON.parse(atob(token.split('.')[1]));
                         const currentUserId = parseInt(decoded.sub || decoded.nameid || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']);
-                        console.log('Current user ID:', currentUserId, 'Is owner:', currentUserId === item.sellerUserId);
+                        const isAdmin = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === 'Admin' || decoded.role === 'Admin';
+                        console.log('Current user ID:', currentUserId, 'Is owner:', currentUserId === item.sellerUserId, 'Is Admin:', isAdmin);
                         
-                        if (currentUserId === item.sellerUserId) {
+                        if (currentUserId === item.sellerUserId || isAdmin) {
                             document.getElementById('editBtn').style.display = 'block';
                             document.getElementById('deleteBtn').style.display = 'block';
                             

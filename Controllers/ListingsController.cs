@@ -92,8 +92,9 @@ namespace Sayara.Controllers
                 return Unauthorized(new ApiResponse<SaleListingDetailDTO> { Success = false, Message = "Unauthorized" });
 
             var listing = await _listingService.GetSaleListingAsync(id);
-            if (listing == null || listing.SellerUserId != userId)
-                return StatusCode(403, new ApiResponse<SaleListingDetailDTO> { Success = false, Message = "You can only edit your own listings" });
+            var isAdmin = User.IsInRole("Admin");
+            if (listing == null || (listing.SellerUserId != userId && !isAdmin))
+                return StatusCode(403, new ApiResponse<SaleListingDetailDTO> { Success = false, Message = "Permission denied" });
 
             return Success(listing);
         }
@@ -106,8 +107,9 @@ namespace Sayara.Controllers
                 return Unauthorized(new ApiResponse<RentListingDetailDTO> { Success = false, Message = "Unauthorized" });
 
             var listing = await _listingService.GetRentListingAsync(id);
-            if (listing == null || listing.SellerUserId != userId)
-                return StatusCode(403, new ApiResponse<RentListingDetailDTO> { Success = false, Message = "You can only edit your own listings" });
+            var isAdmin = User.IsInRole("Admin");
+            if (listing == null || (listing.SellerUserId != userId && !isAdmin))
+                return StatusCode(403, new ApiResponse<RentListingDetailDTO> { Success = false, Message = "Permission denied" });
 
             return Success(listing);
         }
@@ -164,8 +166,9 @@ namespace Sayara.Controllers
             if (!int.TryParse(userIdStr, out int userId))
                 return Unauthorized(new ApiResponse { Success = false, Message = "Unauthorized" });
 
-            var result = await _listingService.UpdateSaleListingAsync(id, updateDto, userId);
-            if (!result) return ErrorResponse("Failed to update sale listing or you don't own this listing", 403);
+            var isAdmin = User.IsInRole("Admin");
+            var result = await _listingService.UpdateSaleListingAsync(id, updateDto, userId, isAdmin);
+            if (!result) return ErrorResponse("Failed to update sale listing or permission denied", 403);
             return SuccessResponse("Sale listing updated");
         }
 
@@ -177,8 +180,9 @@ namespace Sayara.Controllers
             if (!int.TryParse(userIdStr, out int userId))
                 return Unauthorized(new ApiResponse { Success = false, Message = "Unauthorized" });
 
-            var result = await _listingService.UpdateRentListingAsync(id, updateDto, userId);
-            if (!result) return ErrorResponse("Failed to update rent listing or you don't own this listing", 403);
+            var isAdmin = User.IsInRole("Admin");
+            var result = await _listingService.UpdateRentListingAsync(id, updateDto, userId, isAdmin);
+            if (!result) return ErrorResponse("Failed to update rent listing or permission denied", 403);
             return SuccessResponse("Rent listing updated");
         }
 
@@ -190,8 +194,9 @@ namespace Sayara.Controllers
             if (!int.TryParse(userIdStr, out int userId))
                 return Unauthorized(new ApiResponse { Success = false, Message = "Unauthorized" });
 
-            var result = await _listingService.DeleteListingAsync(id, userId);
-            if (!result) return ErrorResponse("Listing not found or you don't own this listing", 403);
+            var isAdmin = User.IsInRole("Admin");
+            var result = await _listingService.DeleteListingAsync(id, userId, isAdmin);
+            if (!result) return ErrorResponse("Listing not found or permission denied", 403);
             return SuccessResponse("Listing deleted");
         }
     }

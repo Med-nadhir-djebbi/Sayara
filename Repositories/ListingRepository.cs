@@ -189,19 +189,31 @@ namespace Sayara.Repositories
         {
             var query = _context.SaleListings.AsQueryable();
 
-            if (filterDto.MinPrice > 0 || filterDto.MaxPrice > 0)
+            if (filterDto.MinPrice > 0)
             {
-                query = query.Where(l => l.Price >= filterDto.MinPrice && l.Price <= filterDto.MaxPrice);
+                query = query.Where(l => l.Price >= filterDto.MinPrice);
+            }
+            if (filterDto.MaxPrice > 0)
+            {
+                query = query.Where(l => l.Price <= filterDto.MaxPrice);
             }
 
-            if (filterDto.MinYear > 0 || filterDto.MaxYear > 0)
+            if (filterDto.MinYear > 0)
             {
-                query = query.Where(l => l.Year >= filterDto.MinYear && l.Year <= filterDto.MaxYear);
+                query = query.Where(l => l.Year >= filterDto.MinYear);
+            }
+            if (filterDto.MaxYear > 0)
+            {
+                query = query.Where(l => l.Year <= filterDto.MaxYear);
             }
 
-            if (filterDto.MileageMin > 0 || filterDto.MileageMax > 0)
+            if (filterDto.MileageMin > 0)
             {
-                query = query.Where(l => l.Mileage >= filterDto.MileageMin && l.Mileage <= filterDto.MileageMax);
+                query = query.Where(l => l.Mileage >= filterDto.MileageMin);
+            }
+            if (filterDto.MileageMax > 0)
+            {
+                query = query.Where(l => l.Mileage <= filterDto.MileageMax);
             }
 
             if (filterDto.EngineType != 0)
@@ -214,14 +226,22 @@ namespace Sayara.Repositories
                 query = query.Where(l => l.TransmissionType == filterDto.TransmissionType);
             }
 
-            if (filterDto.FiscalPowerMin > 0 || filterDto.FiscalPowerMax > 0)
+            if (filterDto.FiscalPowerMin > 0)
             {
-                query = query.Where(l => l.FiscalPower >= filterDto.FiscalPowerMin && l.FiscalPower <= filterDto.FiscalPowerMax);
+                query = query.Where(l => l.FiscalPower >= filterDto.FiscalPowerMin);
+            }
+            if (filterDto.FiscalPowerMax > 0)
+            {
+                query = query.Where(l => l.FiscalPower <= filterDto.FiscalPowerMax);
             }
 
-            if (filterDto.CylinderCapacityMin > 0 || filterDto.CylinderCapacityMax > 0)
+            if (filterDto.CylinderCapacityMin > 0)
             {
-                query = query.Where(l => l.CylinderCapacity >= filterDto.CylinderCapacityMin && l.CylinderCapacity <= filterDto.CylinderCapacityMax);
+                query = query.Where(l => l.CylinderCapacity >= filterDto.CylinderCapacityMin);
+            }
+            if (filterDto.CylinderCapacityMax > 0)
+            {
+                query = query.Where(l => l.CylinderCapacity <= filterDto.CylinderCapacityMax);
             }
 
             if (filterDto.BrandId > 0)
@@ -262,29 +282,49 @@ namespace Sayara.Repositories
         {
             var query = _context.RentListings.AsQueryable();
 
-            if (filterDto.MinYear > 0 || filterDto.MaxYear > 0)
+            if (filterDto.MinYear > 0)
             {
-                query = query.Where(l => l.Year >= filterDto.MinYear && l.Year <= filterDto.MaxYear);
+                query = query.Where(l => l.Year >= filterDto.MinYear);
+            }
+            if (filterDto.MaxYear > 0)
+            {
+                query = query.Where(l => l.Year <= filterDto.MaxYear);
             }
 
-            if (filterDto.MileageMin > 0 || filterDto.MileageMax > 0)
+            if (filterDto.MileageMin > 0)
             {
-                query = query.Where(l => l.Mileage >= filterDto.MileageMin && l.Mileage <= filterDto.MileageMax);
+                query = query.Where(l => l.Mileage >= filterDto.MileageMin);
+            }
+            if (filterDto.MileageMax > 0)
+            {
+                query = query.Where(l => l.Mileage <= filterDto.MileageMax);
             }
 
-            if (filterDto.MinDailyRate > 0 || filterDto.MaxDailyRate > 0)
+            if (filterDto.MinDailyRate > 0)
             {
-                query = query.Where(l => l.DailyRate >= filterDto.MinDailyRate && l.DailyRate <= filterDto.MaxDailyRate);
+                query = query.Where(l => l.DailyRate >= filterDto.MinDailyRate);
+            }
+            if (filterDto.MaxDailyRate > 0)
+            {
+                query = query.Where(l => l.DailyRate <= filterDto.MaxDailyRate);
             }
 
-            if (filterDto.MinWeeklyRate > 0 || filterDto.MaxWeeklyRate > 0)
+            if (filterDto.MinWeeklyRate > 0)
             {
-                query = query.Where(l => l.WeeklyRate >= filterDto.MinWeeklyRate && l.WeeklyRate <= filterDto.MaxWeeklyRate);
+                query = query.Where(l => l.WeeklyRate >= filterDto.MinWeeklyRate);
+            }
+            if (filterDto.MaxWeeklyRate > 0)
+            {
+                query = query.Where(l => l.WeeklyRate <= filterDto.MaxWeeklyRate);
             }
 
-            if (filterDto.MinMonthlyRate > 0 || filterDto.MaxMonthlyRate > 0)
+            if (filterDto.MinMonthlyRate > 0)
             {
-                query = query.Where(l => l.MonthlyRate >= filterDto.MinMonthlyRate && l.MonthlyRate <= filterDto.MaxMonthlyRate);
+                query = query.Where(l => l.MonthlyRate >= filterDto.MinMonthlyRate);
+            }
+            if (filterDto.MaxMonthlyRate > 0)
+            {
+                query = query.Where(l => l.MonthlyRate <= filterDto.MaxMonthlyRate);
             }
 
             if (filterDto.EngineType != 0)
@@ -297,14 +337,22 @@ namespace Sayara.Repositories
                 query = query.Where(l => l.TransmissionType == filterDto.TransmissionType);
             }
 
-            if (filterDto.FiscalPowerMin > 0 || filterDto.FiscalPowerMax > 0)
+            if (filterDto.FiscalPowerMin > 0)
             {
-                query = query.Where(l => l.FiscalPower >= filterDto.FiscalPowerMin && l.FiscalPower <= filterDto.FiscalPowerMax);
+                query = query.Where(l => l.FiscalPower >= filterDto.FiscalPowerMin);
+            }
+            if (filterDto.FiscalPowerMax > 0)
+            {
+                query = query.Where(l => l.FiscalPower <= filterDto.FiscalPowerMax);
             }
 
-            if (filterDto.CylinderCapacityMin > 0 || filterDto.CylinderCapacityMax > 0)
+            if (filterDto.CylinderCapacityMin > 0)
             {
-                query = query.Where(l => l.CylinderCapacity >= filterDto.CylinderCapacityMin && l.CylinderCapacity <= filterDto.CylinderCapacityMax);
+                query = query.Where(l => l.CylinderCapacity >= filterDto.CylinderCapacityMin);
+            }
+            if (filterDto.CylinderCapacityMax > 0)
+            {
+                query = query.Where(l => l.CylinderCapacity <= filterDto.CylinderCapacityMax);
             }
 
             if (filterDto.BrandId > 0)

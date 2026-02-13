@@ -1,0 +1,96 @@
+@{
+    ViewData["Title"] = "Executive Command";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="modern-heading mb-1">Administrative Intelligence</h1>
+            <p class="text-muted">Global oversight of the Sayara ecosystem.</p>
+        </div>
+        <div class="admin-status">
+            <span class="badge badge-success px-3 py-2" style="border-radius: 20px;">
+                <i class="fas fa-shield-alt mr-1"></i> Admin Secured
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Dashboard Cards -->
+        <div class="col-md-4">
+            <a href="/Admin/Users" class="admin-card">
+                <div class="card-icon bg-soft-blue"><i class="fas fa-users"></i></div>
+                <div class="card-info">
+                    <h3>Accounts</h3>
+                    <p>Oversee user profiles and roles.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+        </div>
+        
+        <div class="col-md-4">
+            <a href="/Admin/Listings" class="admin-card">
+                <div class="card-icon bg-soft-green"><i class="fas fa-car-side"></i></div>
+                <div class="card-info">
+                    <h3>Inventory</h3>
+                    <p>Manage sale and rental listings.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Admin/Reviews" class="admin-card">
+                <div class="card-icon bg-soft-purple"><i class="fas fa-star"></i></div>
+                <div class="card-info">
+                    <h3>Reputation</h3>
+                    <p>Oversee client feedback and ratings.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modern-heading { font-weight: 800; border-left: 5px solid var(--primary-blue); padding-left: 15px; }
+    .admin-card { 
+        display: flex; 
+        align-items: center; 
+        padding: 30px; 
+        background: white; 
+        border-radius: 24px; 
+        border: 1px solid #f1f5f9; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        text-decoration: none !important;
+        color: inherit !important;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+    }
+    .admin-card:not(.static):hover { 
+        transform: translateY(-10px); 
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-color: var(--primary-blue);
+    }
+    
+    .card-icon { 
+        width: 60px; 
+        height: 60px; 
+        border-radius: 16px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 1.5rem; 
+        margin-right: 20px; 
+    }
+    
+    .bg-soft-blue { background: #eff6ff; color: #3b82f6; }
+    .bg-soft-green { background: #f0fdf4; color: #22c55e; }
+    .bg-soft-purple { background: #faf5ff; color: #a855f7; }
+    
+    .card-info h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 5px; }
+    .card-info p { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+    
+    .card-arrow { margin-left: auto; color: #cbd5e1; transition: 0.3s; }
+    .admin-card:hover .card-arrow { color: var(--primary-blue); transform: translateX(5px); }
+</style>

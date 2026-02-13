@@ -10,6 +10,7 @@ namespace Sayara.Services
         Task<int> CreateReviewAsync(ReviewDTO reviewDto);
         Task<bool> UpdateReviewAsync(int id, ReviewDTO reviewDto);
         Task<bool> DeleteReviewAsync(int id);
+        Task<List<ReviewDTO>> GetAllReviewsAsync();
         Task<decimal> GetAverageRatingAsync(int listingId);
     }
 }

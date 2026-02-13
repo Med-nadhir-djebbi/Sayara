@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "Account Oversight";
+}
+
+<div class="container py-5">
+    <div class="mb-5">
+        <a href="/Admin" class="btn btn-light mb-3" style="border-radius: 12px;">
+            <i class="fas fa-arrow-left mr-2"></i> Dashboard
+        </a>
+        <h1 class="modern-heading">Account Matrix</h1>
+        <p class="text-muted">Manage user privileges and platform access.</p>
+    </div>
+
+    <div class="premium-card">
+        <div class="table-responsive">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <th>Identity</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Registered</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersList">
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="spinner-premium"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modern-heading { font-weight: 800; border-left: 5px solid var(--primary-blue); padding-left: 15px; }
+    .premium-card { background: white; border-radius: 24px; padding: 30px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    
+    .custom-table thead th { 
+        background: #f8fafc; 
+        color: #64748b; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        font-size: 0.75rem; 
+        letter-spacing: 1px;
+        padding: 15px 20px;
+    }
+    
+    .custom-table tbody td { 
+        padding: 20px; 
+        vertical-align: middle; 
+        border-bottom: 1px solid #f1f5f9; 
+    }
+    
+    .identity-cell { font-weight: 700; color: var(--text-dark); }
+    .role-badge { padding: 4px 12px; border-radius: 8px; font-weight: 700; font-size: 0.75rem; }
+    .role-admin { background: #fef2f2; color: #ef4444; }
+    .role-user { background: #f0f9ff; color: #0ea5e9; }
+    
+    .btn-action { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; border: none; }
+    .btn-delete { background: #fff1f2; color: #f43f5e; }
+    .btn-delete:hover { background: #f43f5e; color: white; }
+    
+    .spinner-premium { width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", loadUsers);
+
+    async function loadUsers() {
+        const list = document.getElementById('usersList');
+        const token = localStorage.getItem('token');
+        
+        try {
+            const response = await fetch('/api/admin/users', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const result = await response.json();
+
+            if (response.ok && result.data) {
+                if (result.data.length === 0) {
+                    list.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No registered identities found.</td></tr>';
+                } else {
+                    list.innerHTML = result.data.map(u => `
+                        <tr>
+                            <td><span class="identity-cell">${u.firstName} ${u.lastName}</span></td>
+                            <td class="text-muted">${u.email}</td>
+                            <td><span class="role-badge ${u.role === 'Admin' ? 'role-admin' : 'role-user'}">${u.role}</span></td>
+                            <td class="text-muted">${new Date(u.createdAt).toLocaleDateString()}</td>
+                            <td class="text-right">
+                                <button class="btn-action btn-delete" onclick="deleteUser(${u.id})">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            list.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Security sync failure.</td></tr>';
+        }
+    }
+
+    async function deleteUser(id) {
+        if (!confirm('Eliminate this identity from the ecosystem? This action is absolute.')) return;
+        const token = localStorage.getItem('token');
+        
+        try {
+            const response = await fetch(\`/api/admin/users/\${id}\`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                alert('Identity purged.');
+                loadUsers();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+</script>

@@ -1,0 +1,138 @@
+@{
+    ViewData["Title"] = "Global Inventory";
+}
+
+<div class="container py-5">
+    <div class="mb-5">
+        <a href="/Admin" class="btn btn-light mb-3" style="border-radius: 12px;">
+            <i class="fas fa-arrow-left mr-2"></i> Dashboard
+        </a>
+        <h1 class="modern-heading">Global Inventory</h1>
+        <p class="text-muted">Master control of all sale and rental assets.</p>
+    </div>
+
+    <div class="premium-card">
+        <div class="table-responsive">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Vehicle</th>
+                        <th>Owner</th>
+                        <th>Valuation/Rate</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="listingsList">
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="spinner-premium"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modern-heading { font-weight: 800; border-left: 5px solid var(--primary-blue); padding-left: 15px; }
+    .premium-card { background: white; border-radius: 24px; padding: 30px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    
+    .custom-table thead th { 
+        background: #f8fafc; 
+        color: #64748b; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        font-size: 0.75rem; 
+        letter-spacing: 1px;
+        padding: 15px 20px;
+    }
+    
+    .custom-table tbody td { 
+        padding: 20px; 
+        vertical-align: middle; 
+        border-bottom: 1px solid #f1f5f9; 
+    }
+    
+    .type-badge { padding: 4px 12px; border-radius: 8px; font-weight: 700; font-size: 0.75rem; }
+    .type-sale { background: #f0f9ff; color: #0ea5e9; }
+    .type-rent { background: #f0fdf4; color: #22c55e; }
+    
+    .vehicle-cell { font-weight: 700; color: var(--text-dark); display: block; }
+    .vehicle-meta { font-size: 0.8rem; color: var(--text-muted); }
+    
+    .btn-action { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; border: none; margin-left: 5px; }
+    .btn-view { background: #f1f5f9; color: #64748b; }
+    .btn-view:hover { background: var(--primary-blue); color: white; }
+    .btn-delete { background: #fff1f2; color: #f43f5e; }
+    .btn-delete:hover { background: #f43f5e; color: white; }
+    
+    .spinner-premium { width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", loadListings);
+
+    async function loadListings() {
+        const list = document.getElementById('listingsList');
+        const token = localStorage.getItem('token');
+        
+        try {
+            const response = await fetch('/api/admin/listings', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const result = await response.json();
+
+            if (response.ok && result.data) {
+                if (result.data.length === 0) {
+                    list.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No vehicles found in the ecosystem.</td></tr>';
+                } else {
+                    list.innerHTML = result.data.map(l => `
+                        <tr>
+                            <td><span class="type-badge ${l.type === 'Sale' ? 'type-sale' : 'type-rent'}">${l.type}</span></td>
+                            <td>
+                                <span class="vehicle-cell">${l.brandName} ${l.model}</span>
+                                <span class="vehicle-meta">${l.year} | ID: ${l.id}</span>
+                            </td>
+                            <td><span class="font-weight-bold">${l.owner}</span></td>
+                            <td><span class="text-primary font-weight-bold">${l.price}</span></td>
+                            <td class="text-right">
+                                <a href="/listings/details/${l.id}?type=${l.type.toLowerCase()}" class="btn-action btn-view" title="Inspect">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="/listings/edit/${l.id}?type=${l.type.toLowerCase()}" class="btn-action btn-edit" title="Modify" style="background: #eff6ff; color: #3b82f6;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button class="btn-action btn-delete" onclick="deleteListing(${l.id})" title="Liquidate">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            list.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Inventory synchronization failure.</td></tr>';
+        }
+    }
+
+    async function deleteListing(id) {
+        if (!confirm('Liquidate this asset? This operation is irreversible.')) return;
+        const token = localStorage.getItem('token');
+        
+        try {
+            const response = await fetch(\`/api/admin/listings/\${id}\`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                alert('Asset liquidated.');
+                loadListings();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+</script>

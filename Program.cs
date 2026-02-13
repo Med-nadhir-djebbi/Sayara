@@ -60,6 +60,7 @@ else
 }
 
 // Seed Database
+await DbInitializer.Seed(app);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

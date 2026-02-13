@@ -156,12 +156,12 @@ namespace Sayara.Services
             }
         }
 
-        public async Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto, int userId)
+        public async Task<bool> UpdateSaleListingAsync(int id, CreateSaleListingDTO updateDto, int userId, bool isAdmin = false)
         {
             var listing = await _listingRepository.GetByIdAsync(id);
-            if (listing == null || listing is not SaleListing || listing.UserId != userId)
+            if (listing == null || listing is not SaleListing || (listing.UserId != userId && !isAdmin))
             {
-                _logger.LogWarning("Sale listing with ID {Id} not found or user {UserId} is not the owner", id, userId);
+                _logger.LogWarning("Sale listing with ID {Id} not found or user {UserId} (isAdmin: {IsAdmin}) is not allowed", id, userId, isAdmin);
                 return false;
             }
 
@@ -184,12 +184,12 @@ namespace Sayara.Services
             return true;
         }
 
-        public async Task<bool> UpdateRentListingAsync(int id, CreateRentListingDTO updateDto, int userId)
+        public async Task<bool> UpdateRentListingAsync(int id, CreateRentListingDTO updateDto, int userId, bool isAdmin = false)
         {
             var listing = await _listingRepository.GetByIdAsync(id);
-            if (listing == null || listing is not RentListing || listing.UserId != userId)
+            if (listing == null || listing is not RentListing || (listing.UserId != userId && !isAdmin))
             {
-                _logger.LogWarning("Rent listing with ID {Id} not found or user {UserId} is not the owner", id, userId);
+                _logger.LogWarning("Rent listing with ID {Id} not found or user {UserId} (isAdmin: {IsAdmin}) is not allowed", id, userId, isAdmin);
                 return false;
             }
 
@@ -214,12 +214,12 @@ namespace Sayara.Services
             return true;
         }
 
-        public async Task<bool> DeleteListingAsync(int id, int userId)
+        public async Task<bool> DeleteListingAsync(int id, int userId, bool isAdmin = false)
         {
             var listing = await _listingRepository.GetByIdAsync(id);
-            if (listing == null || listing.UserId != userId)
+            if (listing == null || (listing.UserId != userId && !isAdmin))
             {
-                _logger.LogWarning("Listing with ID {Id} not found or user {UserId} is not the owner", id, userId);
+                _logger.LogWarning("Listing with ID {Id} not found or user {UserId} (isAdmin: {IsAdmin}) is not allowed", id, userId, isAdmin);
                 return false;
             }
 

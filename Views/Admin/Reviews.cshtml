@@ -1,0 +1,123 @@
+@{
+    ViewData["Title"] = "Reputation Oversight";
+}
+
+<div class="container py-5">
+    <div class="mb-5">
+        <a href="/Admin" class="btn btn-light mb-3" style="border-radius: 12px;">
+            <i class="fas fa-arrow-left mr-2"></i> Dashboard
+        </a>
+        <h1 class="modern-heading">Reputation Matrix</h1>
+        <p class="text-muted">Cleanse the ecosystem of inappropriate or fraudulent feedback.</p>
+    </div>
+
+    <div class="premium-card">
+        <div class="table-responsive">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <th>Reviewer</th>
+                        <th>Target (Reviewee)</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th class="text-right">Purge</th>
+                    </tr>
+                </thead>
+                <tbody id="reviewsList">
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="spinner-premium"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modern-heading { font-weight: 800; border-left: 5px solid var(--primary-blue); padding-left: 15px; }
+    .premium-card { background: white; border-radius: 24px; padding: 30px; border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    
+    .custom-table thead th { 
+        background: #f8fafc; 
+        color: #64748b; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        font-size: 0.75rem; 
+        letter-spacing: 1px;
+        padding: 15px 20px;
+    }
+    
+    .custom-table tbody td { 
+        padding: 20px; 
+        vertical-align: middle; 
+        border-bottom: 1px solid #f1f5f9; 
+    }
+    
+    .star-cell { color: #fbbf24; white-space: nowrap; }
+    .btn-action { width: 36px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; border: none; }
+    .btn-delete { background: #fff1f2; color: #f43f5e; }
+    .btn-delete:hover { background: #f43f5e; color: white; }
+    
+    .spinner-premium { width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", loadReviews);
+
+    async function loadReviews() {
+        const list = document.getElementById('reviewsList');
+        const token = localStorage.getItem('token');
+        
+        try {
+            const response = await fetch('/api/admin/reviews', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const result = await response.json();
+
+            if (response.ok && result.data) {
+                list.innerHTML = result.data.map(r => `
+                    <tr>
+                        <td><span class="font-weight-bold">${r.reviewerName || 'Anonymous'}</span></td>
+                        <td><span class="font-weight-bold">${r.revieweeName}</span></td>
+                        <td>
+                            <div class="star-cell">
+                                ${Array(5).fill(0).map((_, i) => `<i class="${i < r.rating ? 'fas' : 'far'} fa-star"></i>`).join('')}
+                            </div>
+                        </td>
+                        <td class="text-muted" style="max-width: 300px; white-space: normal;">${r.comment}</td>
+                        <td class="text-right">
+                            <button class="btn-action btn-delete" onclick="deleteReview(${r.id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                list.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No client experiences logged yet.</td></tr>';
+            }
+        } catch (err) {
+            console.error(err);
+            list.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Reputation sync failure.</td></tr>';
+        }
+    }
+
+    async function deleteReview(id) {
+        if (!confirm('Purge this testimonial from the ecosystem? This action is absolute.')) return;
+        const token = localStorage.getItem('token');
+        
+        try {
+            const response = await fetch(\`/api/admin/reviews/\${id}\`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                alert('Testimonial purged.');
+                loadReviews();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+</script>

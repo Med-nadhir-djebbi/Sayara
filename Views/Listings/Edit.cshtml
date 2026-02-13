@@ -273,7 +273,7 @@
                 console.error('API Error:', errorMsg, 'Status:', response.status);
                 let html = `<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> ${errorMsg}`;
                 if (response.status === 403) {
-                    html += '<br>You can only edit listings you own.';
+                    html += '<br>You do not have permission to edit this listing.';
                 } else if (response.status === 401) {
                     html += '<br><a href="/login">Login to continue</a>';
                 }
