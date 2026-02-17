@@ -1,0 +1,25 @@
+@model IEnumerable<tpFINAL.Models.PanierParUser>
+@{
+    ViewData["Title"] = "PanierParUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>PanierParUser</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Quantity (Products Count)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProduitId</td>
+                <td>@if(item.produits != null) { @item.produits.Count } else { <span>0</span> }</td>
+            </tr>
+        }
+    </tbody>
+</table>

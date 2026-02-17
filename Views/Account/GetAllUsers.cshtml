@@ -1,0 +1,25 @@
+@model IEnumerable<tpFINAL.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "UserManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>UserManagement</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>City</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Email</td>
+                <td>@item.City</td>
+            </tr>
+        }
+    </tbody>
+</table>
